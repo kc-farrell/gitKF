@@ -82,46 +82,32 @@
 				<section id="outputList" class="col-12">
 					<!-- Begin: Header Rows -->
 					<div id="headerRow" class="row">
-						<div class="fieldName col-1">VSTi name</div>						
-						<div class="fieldName col-2">VSTi name</div>
-						<div class="fieldName col">rating</div>
-						<div class="fieldName col-2">description</div>
-						<div class="fieldName col">format</div>
-						<div class="fieldName col-5">review</div>
+						<div class="col-1 fieldName">&nbsp;</div>						
+						<div class="col-3 fieldName">VSTi name</div>
+						<div class="col-2 fieldName">description</div>
+						<div class="col fieldName">format</div>
+						<div class="col-5 fieldName">
+							<div class="">rating | review</div>
+						</div>
 					</div>
 					<!-- Begin: TESTING DATA ROW. -->
 
 					<div class="dataRow row">
-						<div class="fieldData renameThis col-1 text-center">
-							<button type="button" class="btn btn-default Edit" data-toggle="modal" data-target="#VSTiInsertForm" onclick="console.log('hey');">edit</button>
+						<div class="col-1 fieldData text-center">
+							<button 
+								type="button" 
+								class="btn btn-default Edit" 
+								data-toggle="modal" 
+								data-target="#VSTiInsertModal" 
+								onclick="console.log('hey');">
+								edit
+							</button>
 						</div>						
-						<div class="fieldData name col-2">
+						<div class="col-3 fieldData">
 							d| AAS Swatches |d 
 							<span class="version">d| v1.0.3316 |d</span>
 						</div>
-						<div class="fieldData ratingStars col">
-							<form hidden>
-							  <fieldset class="starability-slot"> 
-								<!-- <legend>(1-5)</legend> -->
-
-								<input type="radio" id="rate5" name="rating" value="5" />
-								<label for="rate5" title="Amazing">5 stars</label>
-
-								<input type="radio" id="rate4" name="rating" value="4" />
-								<label for="rate4" title="Very good">4 stars</label>
-
-								<input type="radio" id="rate3" name="rating" value="3" />
-								<label for="rate3" title="Average">3 stars</label>
-
-								<input type="radio" id="rate2" name="rating" value="2" />
-								<label for="rate2" title="Not good">2 stars</label>
-
-								<input type="radio" id="rate1" name="rating" value="1" />
-								<label for="rate1" title="Terrible">1 star</label>
-							  </fieldset>
-							</form>							
-						</div>
-						<div class="fieldData description col-2">
+						<div class="col-2 fieldData">
 							<details>
 								<summary>Description</summary> 
 								<span>d|
@@ -131,12 +117,19 @@
 								</span>
 							</details>
 						</div>
-						<div class="fieldData format col text-center">d| EXE |d</div>
-						<div class="reviewField fieldData reviewData col-5">
-							d| This VSTI has been reviewed and the review has a character limit of 150. |d
+						<div class="col fieldData text-center">d| EXE |d</div>
+						<div class="col-5 fieldData">
+							<details>
+								<summary>
+									five stars
+								</summary>
+								<span>d| This VSTI has been reviewed and the review has a character limit of 150. |d</span>
+							</details>
 						</div>
 					</div>
+
 					<div class="dataRow row">
+						my kewl row
 						<div class="col-10"></div>
 						<!-- 
 							<div class="renameThis demo col">
@@ -148,35 +141,14 @@
 						-->
 					</div>
 					<!-- End: TESTING DATA ROW. All rows below should be dynamically generated not static text -->
-					<!--
-					...
-					...
-					...
-					...
-					...
-					...
-					...
-					...
-					...
-					...
-					...
-					...
-					...
-					...
-					...
-					...
-					..
-					-->
-					<!-- Begin: Data rows. All vstI rows should be dynamically generated not static text -->
-					<!-- PUT STUFF HERE .... .... .... -->
-					<!-- all VSTi rows should be dynamically generated not static text -->	
+	
 				</section>
 			</article>
 
 			<footer>
 				<div id="userInteraction" class="row justify-content-center insertNewItem">
 					<div class="col-2">
-						<button type="button" class="btn btn-warning Edit" data-toggle="modal" data-target="#VSTiInsertForm">add new vsti</button>
+						<button type="button" class="btn btn-default Edit" data-toggle="modal" data-target="#VSTiInsertModal">add new vsti</button>
 					</div>
 					<div class="col-8">&nbsp;</div>					
 					<div class="col-2 text-center">
@@ -187,59 +159,75 @@
 				</div>
 			</footer>
 			<!-- Begin: Insert Form Modal -->
-			<div id="VSTiInsertForm"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="VSTiInsertFormLabel" aria-hidden="true">
-			  <div class="modal-dialog modal-lg" role="document">
-				<form>			  	
-				<div class="modal-content">
-				  <div class="modal-header">
-					<h5 class="modal-title" id="VSTiInsertFormLabel">Insert New VSTi Plugin</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-				  </div>
-				  <div class="modal-body">
-					  <div class="dataRow form-row justify-content-center">
-							<div class="fieldData name col-5">
-								<label for="vstiName">VSTi Name</label>
-								<input id="vstiName" type="text" class="form-control vName" placeholder="VSTi Name" />
-							</div>
-							<div class="fieldData name col-2">
-								<label for="vstiVersion">Version</label>
-								<input id="vstiVersion" type="text" class="form-control vVersion" placeholder="Version" />
-							</div>
-							<div class="fieldData col-2">
-								<label for="vstiFormat">Format</label>
-								<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" />
-							</div>
+				<div id="VSTiInsertModal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="VSTiInsertModalLabel" aria-hidden="true">
+				  <div class="modal-dialog modal-lg" role="document">
+					<form>			  	
+					<div class="modal-content">
+					  <div class="modal-header">
+						<h5 class="modal-title" id="VSTiInsertModalLabel">Insert New VSTi Plugin</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+						</button>
+					  </div>
+					  <div class="modal-body">
+						  <div class="dataRow form-row justify-content-center">
+								<div class="fieldData name col-5">
+									<label for="vstiName">VSTi Name</label>
+									<input id="vstiName" type="text" class="form-control vName" placeholder="VSTi Name" />
+								</div>
+								<div class="fieldData name col-2">
+									<label for="vstiVersion">Version</label>
+									<input id="vstiVersion" type="text" class="form-control vVersion" placeholder="Version" />
+								</div>
+								<div class="fieldData col-2">
+									<label for="vstiFormat">Format</label>
+									<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" />
+								</div>
 
-							<div class="fieldData ratingStars col-3">
-								<label for="vstiRating">*Rating*</label>
-								<input id="vstiRating" class="form-control fileformat" type="text" placeholder="1 Star" />					
+								<div class="fieldData ratingStars col-3">
+									<label class="col-12" for="editRating">Rating</label>
+									<span id="editRating" class="rating">
+									    <input type="radio" class="rating-input"
+									           id="rating-input-1-5" name="rating-input-1">
+									    <label for="rating-input-1-5" class="rating-star"></label>
+									    <input type="radio" class="rating-input"
+									           id="rating-input-1-4" name="rating-input-1">
+									    <label for="rating-input-1-4" class="rating-star"></label>
+									    <input type="radio" class="rating-input"
+									           id="rating-input-1-3" name="rating-input-1">
+									    <label for="rating-input-1-3" class="rating-star"></label>
+									    <input type="radio" class="rating-input"
+									           id="rating-input-1-2" name="rating-input-1">
+									    <label for="rating-input-1-2" class="rating-star"></label>
+									    <input type="radio" class="rating-input"
+									           id="rating-input-1-1" name="rating-input-1">
+									    <label for="rating-input-1-1" class="rating-star"></label>
+									</span>					
+								</div>
+						  </div>
+						  <div class="dataRow form-row justify-content-center">
+								<div class="col">&nbsp;</div>
+						  </div>
+						  <div class="dataRow form-row justify-content-center">				  	
+							<div class="fieldData col-6">
+								<label for="vstiDescription">Description:</label>
+								<input id="vstiDescription" type="text" class="form-control fileformat" placeholder="Enter a description of the plugin" />
+							</div>				  							
+							<div class="reviewField fieldData col-6">
+								<label for="vstiReview">Review:</label>
+								<textarea id="vstiReview" class="reviewData" maxlength="150">This textarea has a character limit of 150.
+								</textarea>
 							</div>
+						   </div>
 					  </div>
-					  <div class="dataRow form-row justify-content-center">
-							<div class="col">&nbsp;</div>
-					  </div>
-					  <div class="dataRow form-row justify-content-center">				  	
-						<div class="fieldData col-6">
-							<label for="vstiDescription">Description:</label>
-							<input id="vstiDescription" type="text" class="form-control fileformat" placeholder="Enter a description of the plugin" />
-						</div>				  							
-						<div class="reviewField fieldData col-6">
-							<label for="vstiReview">Review:</label>
-							<textarea id="vstiReview" class="reviewData" maxlength="150">This textarea has a character limit of 150.
-							</textarea>
-						</div>
-					   </div>
+					  <div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
+						<button type="button" class="btn btn-primary">submit</button>
+					  </div>						
+					</form>
+					</div>
 				  </div>
-				  <div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
-					<button type="button" class="btn btn-primary">submit</button>
-				  </div>						
-				</form>
 				</div>
-			  </div>
-			</div>
 			<!-- End: Insert Form Modal -->
 		</main>
 	</body>
@@ -271,7 +259,6 @@
 		$( document ).ready(function() {
 			/* reviewCodes: PASS, FAIL, NOT REVIEWED */
 			var vstList;
-			//console.error("PART ONE: The vstList variable has been defined ---var vstList;---, but no value has been assigned: " + vstList);				
 
 			var vstList = { 
 				"masterVSTiList" : [ 
@@ -285,9 +272,7 @@
 					}, 
 				]
 			}	
-			//console.log("...............................................................................................................");
-			//console.error("PART TWO: Now that the object exists, you can review its values using ---JSON.stringify(vstList)---: " + JSON.stringify(vstList));
-			/* console.log(Object.values(vstList)); */
+
 
 			vstList.masterVSTiList.push(
 				{
@@ -298,20 +283,7 @@
 					vstReview: "vstReview"
 				}
 			);	
-			//console.log("...............................................................................................................");					
-			//console.log("PART THREE: Using .push, I have added a new item to the object\'s array: " + JSON.stringify(vstList));	
-			//console.log("...............................................................................................................");	
-			//console.log(Object.values(vstList));	
 
-			//charLimit(document.getElementsByClassName("reviewData"));							
-			//function charLimit(el) {    
-			//	if (!('maxlength' in el)) {
-			//		var max = el.attributes.maxLength.value;
-			//		el.onkeypress = function () {
-			//			if (this.value.length >= max) return false;
-			//		};
-			//	}
-			//}	
 
 
 			function doInsert() {
@@ -323,36 +295,11 @@
 		// End: 	DocReady
 	</script>	
 </html>
-<!-- 
 
-var vsts = [
- { vst: "AAS Swatches", version: "4.30", description:"Swatches is a sample-based sound player. There is no control over the sound. What makes it special is the quality of the 128 sounds it comes with. Very, very good and usable sounds!", reviewCode:"", reasonCode:"Decent UI" },
-
- { vst: "Blue Cat’s Freeware Pack", version: "1.333", description:"This is a good pack of free plugins. For me the highlights are the spectrum analyzer, flanger and chorus plugins.", reviewCode:"", reasonCode:"Latency issues system crash" },
-
- { vst: "Acustica Audio Nebula 3 Free", version: "Abc", description:"Nebula 3 Free sounds fantastic. There is a bit of a learning curve and they haven\’t exactly made it very easy to download (you have to “buy” it via their shopping cart even though it doesn’t cost anything).", reviewCode:"", reasonCode:"" }, 
-
- { vst: "BOZ Digital Labs Bark of Dog", version: "4.30", description:"This plugin is a pretty obvious copy of the UAD Little Labs Voice of God plugin. It’s a resonant filter for beefing up bass. It will cause you a bowel movement.", reviewCode:"", reasonCode:"Fickle UI" },
-
- { vst: "Flux Bittersweet V3", version: "1.333", description:"Bittersweet is an extremely useful transient shaping plugin. If you’re not making good use of transient shaping, you are missing out on a lot.", reviewCode:"", reasonCode:"Latency issues system crash" },
-
- { vst: "Brainworx BX_Cleansweep v2", version: "Abc", description:"Sometimes you just need a clean, simple and gentle highpass/lowpass filter. Cleansweep is just that. The filters are derived from Brainworx’s BX_Digital mastering EQ. This means they will interfere with the quality of your sound as little as possible.", reviewCode:"", reasonCode:"" },
-
- { vst: "LVC Toned", version: "4.30", description:"Toned is an analog modeled tone shaping plugin. It’s intended for mastering and therefore quite subtle.", reviewCode:"", reasonCode:"Fickle UI" },
-
- { vst: "Klanghelm IVGI", version: "1.333", description:"A lovely saturation plugin, capable of subtle effects that can work on your master bus. Don’t worry, you can crank it up harder too.", reviewCode:"", reasonCode:"Latency issues system crash" },
-
- { vst: "Acon Digital Multiply", version: "Abc", description:"A great sounding spatial effect with tons of flexibility. Especially great for subtle stereo enhancement stuff. Dave Pensado mentioned to me he uses this. ", reviewCode:"", reasonCode:"" },
-
- { vst: "Acon Digital Multiply", version: "Abc", description:"A great sounding spatial effect with tons of flexibility. Especially great for subtle stereo enhancement stuff. Dave Pensado mentioned to me he uses this. ", reviewCode:"", reasonCode:"" }
-];
-console.table(vsts);
-
- -->
 
 
 <!-- PACKING LIST:
-	star rating		- https://www.cssscript.com/accessible-star-rating-system-pure-css/
+	star rating		- https://www.everythingfrontend.com/posts/star-rating-input-pure-css.html (honorable mentions: https://css-tricks.com/star-ratings/ | https://www.cssscript.com/accessible-star-rating-system-pure-css/)
 	design reqs		- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details
 	audio demo		- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio
 -->
