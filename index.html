@@ -5,6 +5,12 @@
 		<title>VSTi Rating and Review App</title>
 		<meta name="description" content="Custom vsti tool for reviewing and rating vsti instruments downloaded from KVR Audio and other sites.">
 		<meta name="keywords" content="HTML,CSS,Bootstrap,JavaScript">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--
+			The width property controls the size of the viewport. It can be set to a specific number of pixels like width=600 or to the special value device-width, which is the width of the screen in CSS pixels at a scale of 100%. (There are corresponding height and device-height values, which may be useful for pages with elements that change size or position based on the viewport height.)
+
+			The initial-scale property controls the zoom level when the page is first loaded. The maximum-scale, minimum-scale, and user-scalable properties control how users are allowed to zoom the page in or out.
+		 -->
 		<meta name="author" content="KC Farrell">		
 
 		<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -16,7 +22,8 @@
 
 		</style>
 
-		<script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>	
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<!-- LOCAL VERSION of jQuery 331 <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script> -->
 		<script src="js/bootstrap.min.js"></script>			
 	</head>
 	<body  class="container"><!-- optionally, use container-fluid for full viewport display -->
@@ -27,108 +34,118 @@
 					<div id="landingIntro" class="col-10">
 						<div class="col-12">
 							<h1 class="invisible">VSTi Maintenance</h1>
-							<p>
-								<strong>ATTENTION!</strong> The purpose of this application is to demonstrate knowledge of Javascript by providing an interface to display, edit existing and add new VSTi plugins. The table below is a listing of all VST instrument (VSTi) software interface plugins. TESTING. 
-								<br /><br />
-								<strong>Instructions:</strong>
-								<br />
-								Click the <strong>Edit</strong> button to edit information for an VSTi. 
-								<br />
-								Click the <strong>Add</strong> button to insert a new VSTi list item.
-								<br /><br />
-							</p>
+							<details>
+								<summary><strong>App's Purpose</strong></summary>
+									The purpose of this application is to provide an interface to display, edit existing and add new VSTi plugins. From the listing, the user should be able to rate and review the plugins. Once the rating, reviews have been completed, the app should provide a sortable table of all VST instrument (VSTi) software interface plugins. 
+									<br /><br />
+									Upon completion, this app should provide a simple interface to display the highest ranked VSTis as well as a way of indicating which VSTs are not going to be used and should be removed from the main VSTi library. 
+									<strong>Instructions:</strong>
+									<br />
+									Click the <strong>Edit</strong> button to edit information for an VSTi. 
+									<br />
+									Click the <strong>Add</strong> button to insert a new VSTi list item.
+									<div class="col-12">
+										<details class="col">
+											<summary><strong>Design Requirements Checklist:</strong></summary> 
+											<ul id="designReqs">
+												<li>A list of installed VSTi plugins</li>
+												<li>Ability to Edit a list item</li>
+												<li>Ability to Add a new list item</li>
+												<li>Ability to Sort the list via col headings</li>
+												<li>Basic reporting on Qty, ratings, format</li>
+												<li>Play a demo of each VSTi in the list</li>
+												<li>Display readme txt file via icon click</li>
+												<li>Use colors to designate status, like Bootstrap for Good, Bad, Untested</li>
+												<li>Display product URL/link to the download site</li>
+											</ul>
+										</details>
+										<details class="col">
+											<summary><strong>Code Features Included:</strong></summary> 
+											<ul id="codeFeatures">
+												<li>HTML5 - semantic markup</li>
+												<li>HTML5 - details, summary and audio elements</li>
+												<li>CSS - Bootstrap 4.0 new implementation</li>
+												<li>CSS - LESS file, compilation of CSS from a master file</li>
+												<li>CSS - Normalize via Bootstrap</li>
+												<li>CSS - in-element breakpoints for better organization</li>
+												<li>JS - Build and maintain an object to contain the listing</li>
+												<li>JS - read from, parse, edit and insert new object members.</li>
+												<li>JS - Add elements to the DOM via push</li>
+												<li>JS - Ratings, reviews maintenance</li>
+											</ul>
+										</details>
+									</div>	
+							</details>
 						</div>
-					</div>
-					<div class="col-12">
-						<details class="col">
-							<summary><strong>Design Requirements Checklist:</strong></summary> 
-							<ul id="designReqs">
-								<li>A list of installed VSTi plugins</li>
-								<li>Ability to Edit a list item</li>
-								<li>Ability to Add a new list item</li>
-								<li>Ability to Sort the list via col headings</li>
-								<li>Basic reporting on Qty, ratings, format</li>
-								<li>Play a demo of each VSTi in the list</li>
-								<li>Display readme txt file via icon click</li>
-								<li>Use colors to designate status, like Bootstrap for Good, Bad, Untested</li>
-								<li>Display product URL/link to the download site</li>
-							</ul>
-						</details>
-						<details class="col">
-							<summary><strong>Code Features Included:</strong></summary> 
-							<ul id="codeFeatures">
-								<li>HTML5 - semantic markup</li>
-								<li>HTML5 - details, summary and audio elements</li>
-								<li>CSS - Bootstrap 4.0 new implementation</li>
-								<li>CSS - LESS file, compilation of CSS from a master file</li>
-								<li>CSS - Normalize via Bootstrap</li>
-								<li>CSS - in-element breakpoints for better organization</li>
-								<li>JS - Build and maintain an object to contain the listing</li>
-								<li>JS - read from, parse, edit and insert new object members.</li>
-								<li>JS - Add elements to the DOM via push</li>
-								<li>JS - Ratings, reviews maintenance</li>
-							</ul>
-						</details>
-					</div>					
 				</section>
 
 				<section id="outputList" class="col-12">
 					<!-- Begin: Header Rows -->
 					<div id="headerRow" class="row">
+						<div class="fieldName col-1">VSTi name</div>						
 						<div class="fieldName col-2">VSTi name</div>
-						<div class="fieldName col">version</div>
+						<div class="fieldName col">rating</div>
 						<div class="fieldName col-2">description</div>
 						<div class="fieldName col">format</div>
-						<div class="fieldName col-6">review</div>
+						<div class="fieldName col-5">review</div>
 					</div>
 					<!-- Begin: TESTING DATA ROW. -->
 
-
 					<div class="dataRow row">
+						<div class="fieldData renameThis col-1 text-center">
+							<button type="button" class="btn btn-default Edit" data-toggle="modal" data-target="#VSTiInsertForm" onclick="console.log('hey');">edit</button>
+						</div>						
+						<div class="fieldData name col-2">
+							d| AAS Swatches |d 
+							<span class="version">d| v1.0.3316 |d</span>
+						</div>
+						<div class="fieldData ratingStars col">
+							<form hidden>
+							  <fieldset class="starability-slot"> 
+								<!-- <legend>(1-5)</legend> -->
 
-						<div class="fieldData name col-2">AAS Swatches</div>
-						<div class="fieldData version col">v1.0.3316
+								<input type="radio" id="rate5" name="rating" value="5" />
+								<label for="rate5" title="Amazing">5 stars</label>
+
+								<input type="radio" id="rate4" name="rating" value="4" />
+								<label for="rate4" title="Very good">4 stars</label>
+
+								<input type="radio" id="rate3" name="rating" value="3" />
+								<label for="rate3" title="Average">3 stars</label>
+
+								<input type="radio" id="rate2" name="rating" value="2" />
+								<label for="rate2" title="Not good">2 stars</label>
+
+								<input type="radio" id="rate1" name="rating" value="1" />
+								<label for="rate1" title="Terrible">1 star</label>
+							  </fieldset>
+							</form>							
 						</div>
 						<div class="fieldData description col-2">
-							<details><summary>Description</summary> Swatches is a sample-based sound player. There is no control over the sound. What makes it special is the quality of the 128 sounds it comes with. Very, very good and usable sounds!</details>
+							<details>
+								<summary>Description</summary> 
+								<span>d|
+									Swatches is a sample-based sound player. There is no control over the sound. What makes it special is the quality 
+									of the 128 sounds it comes with. Very, very good and usable sounds!
+									|d
+								</span>
+							</details>
 						</div>
-						<div class="fieldData format col">EXE</div>
-						<div class="fieldData col-3">Decent UI</div>
+						<div class="fieldData format col text-center">d| EXE |d</div>
+						<div class="reviewField fieldData reviewData col-5">
+							d| This VSTI has been reviewed and the review has a character limit of 150. |d
+						</div>
 					</div>
-					<div class="dataRow row">					
-						<div class="fieldData col"><button type="button" class="btn btn-default Edit">edit</button></div>
-
-						<div class="fieldData ratingStars col">
-							<form>
-							  <fieldset class="starability-slot"> 
-							    <legend>(1-5)</legend>
-
-							    <input type="radio" id="rate5" name="rating" value="5" />
-							    <label for="rate5" title="Amazing">5 stars</label>
-
-							    <input type="radio" id="rate4" name="rating" value="4" />
-							    <label for="rate4" title="Very good">4 stars</label>
-
-							    <input type="radio" id="rate3" name="rating" value="3" />
-							    <label for="rate3" title="Average">3 stars</label>
-
-							    <input type="radio" id="rate2" name="rating" value="2" />
-							    <label for="rate2" title="Not good">2 stars</label>
-
-							    <input type="radio" id="rate1" name="rating" value="1" />
-							    <label for="rate1" title="Terrible">1 star</label>
-							  </fieldset>
-							</form>
-						</div>
-
-						<div class="fieldData demo col">
-							<audio controls>
-								<source src="myAudio.mp3" type="audio/mp3">
-								<source src="myAudio.ogg" type="audio/ogg">
-							</audio>							
-
-						</div>
-								
+					<div class="dataRow row">
+						<div class="col-10"></div>
+						<!-- 
+							<div class="renameThis demo col">
+								<audio controls>
+									<source src="myAudio.mp3" type="audio/mp3">
+									<source src="myAudio.ogg" type="audio/ogg">
+								</audio>
+							</div>
+						-->
 					</div>
 					<!-- End: TESTING DATA ROW. All rows below should be dynamically generated not static text -->
 					<!--
@@ -153,27 +170,79 @@
 					<!-- Begin: Data rows. All vstI rows should be dynamically generated not static text -->
 					<!-- PUT STUFF HERE .... .... .... -->
 					<!-- all VSTi rows should be dynamically generated not static text -->	
-					<div class="row insertNewItem">
-						<div class="col">
-							<button type="button" class="btn btn-warning Edit">add</button>
-						</div>
-					</div>
-				</section>
-					
-
-
 				</section>
 			</article>
+
+			<footer>
+				<div id="userInteraction" class="row justify-content-center insertNewItem">
+					<div class="col-2">
+						<button type="button" class="btn btn-warning Edit" data-toggle="modal" data-target="#VSTiInsertForm">add new vsti</button>
+					</div>
+					<div class="col-8">&nbsp;</div>					
+					<div class="col-2 text-center">
+						<meter id="reviewQty" value="2" min="0" max="10"></meter>
+						<br />
+						<label for "reviewQty">2 out of 5 VSTi plugins have been rated.</label>
+					</div>					
+				</div>
+			</footer>
+			<!-- Begin: Insert Form Modal -->
+			<div id="VSTiInsertForm"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="VSTiInsertFormLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-lg" role="document">
+				<form>			  	
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="VSTiInsertFormLabel">Insert New VSTi Plugin</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				  </div>
+				  <div class="modal-body">
+					  <div class="dataRow form-row justify-content-center">
+							<div class="fieldData name col-5">
+								<label for="vstiName">VSTi Name</label>
+								<input id="vstiName" type="text" class="form-control vName" placeholder="VSTi Name" />
+							</div>
+							<div class="fieldData name col-2">
+								<label for="vstiVersion">Version</label>
+								<input id="vstiVersion" type="text" class="form-control vVersion" placeholder="Version" />
+							</div>
+							<div class="fieldData col-2">
+								<label for="vstiFormat">Format</label>
+								<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" />
+							</div>
+
+							<div class="fieldData ratingStars col-3">
+								<label for="vstiRating">*Rating*</label>
+								<input id="vstiRating" class="form-control fileformat" type="text" placeholder="1 Star" />					
+							</div>
+					  </div>
+					  <div class="dataRow form-row justify-content-center">
+							<div class="col">&nbsp;</div>
+					  </div>
+					  <div class="dataRow form-row justify-content-center">				  	
+						<div class="fieldData col-6">
+							<label for="vstiDescription">Description:</label>
+							<input id="vstiDescription" type="text" class="form-control fileformat" placeholder="Enter a description of the plugin" />
+						</div>				  							
+						<div class="reviewField fieldData col-6">
+							<label for="vstiReview">Review:</label>
+							<textarea id="vstiReview" class="reviewData" maxlength="150">This textarea has a character limit of 150.
+							</textarea>
+						</div>
+					   </div>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
+					<button type="button" class="btn btn-primary">submit</button>
+				  </div>						
+				</form>
+				</div>
+			  </div>
+			</div>
+			<!-- End: Insert Form Modal -->
 		</main>
-		<div class="col">
-			<meter value="2" min="0" max="10">2 out of 10</meter><br>
-			<meter value="0.6">60%</meter>
-		</div>
-</body>
-
-
-
-
+	</body>
 	<script type="text/javascript">
 		/* Begin: 	Common console logs */
 			/*
@@ -183,46 +252,73 @@
 			*/
 		/* End: 	Common console logs */
 
+		/*
+			// Loop through Divs using Javascript.
+			var divs = document.querySelectorAll('div'), i;
+
+			for (i = 0; i < divs.length; ++i) {
+			  divs[i].style.color = "green";
+			}
+
+			var $mySelection = $("#nosuchthing");
+			if ($mySelection.length) {
+				$mySelection.slideUp();
+			}			
+		*/
+
 
 		// Begin: 	DocReady
 		$( document ).ready(function() {
 			/* reviewCodes: PASS, FAIL, NOT REVIEWED */
 			var vstList;
-			console.error("PART ONE: The vstList variable has been defined ---var vstList;---, but no value has been assigned: " + vstList);				
+			//console.error("PART ONE: The vstList variable has been defined ---var vstList;---, but no value has been assigned: " + vstList);				
 
 			var vstList = { 
 				"masterVSTiList" : [ 
-					{
+					{						
 						vstName: "AAS Swatches", 
-						vstVersion: "1.00A",
-						vstDescription:"Swatches is a sample-based sound player. There is no control over the sound. What makes it special is the quality of the 128 sounds it comes with. Very, very good and usable sounds!",
-						vstFormat:"DLL",							
-						vstReleaseYr:"2020",
-						vstInstallPath: "c:/workbench/VSTi/testing/aas", 
-						vstFeedback:"PASS",
+						vstVersion: "AAS Swatches",						
+						vstRating: 3,
+						vstDescription: "Swatches is a sample-based sound player. There is no control over the sound. What makes it special is the quality of the 128 sounds it comes with. Very, very good and usable sounds!",
+						vstFormat: "DLL",							
 						vstReview: "Does what it says it does."
 					}, 
 				]
 			}	
-			console.log("...............................................................................................................");
-			console.error("PART TWO: Now that the object exists, you can review its values using ---JSON.stringify(vstList)---: " + JSON.stringify(vstList));
+			//console.log("...............................................................................................................");
+			//console.error("PART TWO: Now that the object exists, you can review its values using ---JSON.stringify(vstList)---: " + JSON.stringify(vstList));
 			/* console.log(Object.values(vstList)); */
 
 			vstList.masterVSTiList.push(
 				{
 					vstName: "BOZ Digital Labs Bark of Dog", 
-					vstVersion:"vstVersion", 
-					vstDescription:"vstDescription", 
-					vstFormat:"vstFormat", 
-					vstReleaseYr:"vstReleaseYr", 
-					vstInstallPath: "vstInstallPath", 
-					vstFeedback: "vstFeedback", 
-					vstReview: "vstReview"}
+					vstRating: 3,					 
+					vstDescription: "vstDescription", 
+					vstFormat: "vstFormat", 
+					vstReview: "vstReview"
+				}
 			);	
-			console.log("...............................................................................................................");					
-			console.log("PART THREE: Using .push, I have added a new item to the object\'s array: " + JSON.stringify(vstList));	
-			console.log("...............................................................................................................");	
-			console.log(Object.values(vstList));					
+			//console.log("...............................................................................................................");					
+			//console.log("PART THREE: Using .push, I have added a new item to the object\'s array: " + JSON.stringify(vstList));	
+			//console.log("...............................................................................................................");	
+			//console.log(Object.values(vstList));	
+
+			//charLimit(document.getElementsByClassName("reviewData"));							
+			//function charLimit(el) {    
+			//	if (!('maxlength' in el)) {
+			//		var max = el.attributes.maxLength.value;
+			//		el.onkeypress = function () {
+			//			if (this.value.length >= max) return false;
+			//		};
+			//	}
+			//}	
+
+
+			function doInsert() {
+				var testTarget = parentDOM.getElementsByClassName("test")[0]; // the first element, as we wanted
+				console.log(testTarget);
+			}	
+					
 		});
 		// End: 	DocReady
 	</script>	
