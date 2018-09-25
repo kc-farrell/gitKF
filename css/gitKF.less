@@ -14,8 +14,9 @@ legend {
 	font-size: 0.75rem;
 }
 .btn {
-	margin: 0.35rem 0;
+	margin: 0;
 	padding: 0.5rem;
+	font-size: 0.75rem;
 	line-height: 0.5rem;	
 	text-transform: capitalize!important;					
 	&.btn-default {	}
@@ -48,10 +49,15 @@ textarea {
 	line-height: 2.0rem;    
 }
 
-summary {
-	outline: none;
+details {
+	position: relative;
+	border-radius: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	summary {
+		outline: none;
+	}
 }
-
 
 
 main {
@@ -87,29 +93,81 @@ main {
 
 		&#outputList {
 			#headerRow {
+				border-bottom: 2px solid #d6d6d6;
 				.fieldName {
 					font-weight:bold;
 					color: #004085;
 					text-transform: capitalize;
-					text-align: center;
+					text-align: center;				
 				}
 			}
 			.dataRow {
+				border-bottom: 1px solid #d6d6d6;				
 				.fieldData {
-					border-bottom: 1px solid #d5d5d5;
-					line-height: 1.25rem;
-				}	
-				.renameThis {
-					line-height: 1.0!important;				
-				}		
+    				padding: 0.25rem 0;
+					details {
+						position: absolute;
+					    padding: 0;
+					    margin: 0;						
+						background: #d6d6d6;
+						color: #000;
+						border-radius: 10px;
+						border-top-left-radius: 0;
+						border-top-right-radius: 0;
+						summary {
+							outline: none;
+							background: #fff;
+							color: #6c757d;
+						}
+						span {
+							display: inline-block;
+							margin: 0.5rem 0.35rem;
+						}
+					}    				
+					.renameThis {
+						line-height: 1.0!important;				
+					}		
+				}
+				.row.insertNewItem {
+					background: mintCream;
+				}
 			}
-			.row.insertNewItem {
-				background: mintCream;
-			}
-		}	
+		}
 	}
 }
+/* Begin: Rating Styling */
+	.rating {
+	    overflow: hidden;
+	    display: inline-block;
+	}
 
+	.rating-input {
+	    float: right;
+	    width: 16px;
+	    height: 16px;
+	    padding: 0;
+	    margin: 0 0 0 -14px;
+	    opacity: 0;
+	}
+
+	label.rating-star {
+	    position: relative;
+	    float: right;
+	    display: block;
+	    width: 16px;
+	    height: 16px;
+	    background: url('../images/star.png') 0 -16px;
+	    margin-bottom: 0!important;
+	}
+
+	.rating-star:hover,
+	.rating-star:hover ~ .rating-star, 
+	.rating-input:checked ~ .rating-star {
+	    background-position: 0 0;
+	}
+
+
+/* End: Rating Styling */
 footer {
 	margin: 1.5rem 0;
 	border-top: none;
