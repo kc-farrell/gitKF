@@ -105,8 +105,8 @@
 						<div class="col-1 fieldName">&nbsp;</div>						
 						<div class="col-3 fieldName">VSTi name</div>
 						<div class="col-2 fieldName">description</div>
-						<div class="col fieldName">format</div>
-						<div class="col-5 fieldName">
+						<div class="col-2 fieldName">format</div>
+						<div class="col-4 fieldName">
 							<div class="">rating | review</div>
 						</div>
 					</div>
@@ -114,11 +114,7 @@
 					<div id="defaultData" class="row text-center">
 						<div class="col-12">
 							WHAT IS WRONG WITH YOU PEOPLE? WHAT DON'T YOU UNDERSTAND?
-							<br />THERE IS NO DATA TO DISPLAY! GO AHEAD AND CLICK THE GD BUTTON ALREADY, SO I DON'T HAVE TO! =====>>
-							<button 
-								id="defaultAddBtn" class="btn btn-default Edit" 
-								type="button" data-toggle="modal" data-target="#VSTiInsertModal">add new vsti
-							</button>
+							<br />THERE IS NO DATA TO DISPLAY! GO AHEAD AND CLICK THE GD BUTTON ALREADY, SO I DON'T HAVE TO!
 						</div>
 					</div>
 					<div id="vstiInsertTemplate" class="dataRow row">
@@ -132,22 +128,20 @@
 							</button>
 						</div>						
 						<div class="col-3 fieldData">
-							<span id="dVSTiName"></span> 
-							<span id="dVSTiVersion" class="version"></span>
+							<span class="dVSTiName"></span> 
+							<span class="dVSTiVersion" class="version"></span>
 						</div>
 						<div class="col-2 fieldData">
 							<details>
-								<summary>No data available.</summary> 
-								<span id="dVSTiDescription">No VSTi plugins have been added. Click the <strong>Add New VSTi</strong> button to add a new plugin to the list.</span>
+								<summary>Description</summary> 
+								<span class="dVSTiDescription">No VSTi plugins have been added. Click the <strong>Add New VSTi</strong> button to add a new plugin to the list.</span>
 							</details>
 						</div>
-						<div id="dVSTiFormat" class="col fieldData text-center">
+						<div class="col-2 fieldData text-center dVSTiFormat">
 						</div>
-						<div class="col-5 fieldData">
-							<details>
-								<summary id="dVSTiRating"></summary>
-								<span id="dVSTiReview"></span>
-							</details>
+						<div class="col-4 fieldData">
+							<span class="dVSTiRating"></span>
+							<span class="dVSTiReview"></span>							
 							<div class="vDemo col">
 							<!--								
 								<audio controls>
@@ -164,8 +158,14 @@
 
 			<footer>
 				<div id="userInteraction" class="row justify-content-center insertNewItem">
-					<div id="testingDiv" class="col-8">testing div</div>					
-					<div class="col-4 text-center">
+					<div class="col-1 fieldData text-center">
+						<button 
+							id="addVstiBtn" class="btn btn-default Edit" 
+							type="button" data-toggle="modal" data-target="#VSTiInsertModal">add new vsti
+						</button>
+					</div>						
+					<div id="testingDiv" class="col-2">testing div</div>					
+					<div class="col-6 text-center">
 						<meter id="reviewQty" value="2" min="0" max="10"></meter>
 						<br />
 						<label for "reviewQty">2 out of 5 VSTi plugins have been rated.</label>
@@ -187,15 +187,15 @@
 						  <div class="form-row justify-content-center">
 								<div class="fieldData name col-5">
 									<label for="vstiName">VSTi Name</label>
-									<input id="vstiName" type="text" class="form-control vName" placeholder="VSTi Name" value="BUTKISS" />
+									<input id="vstiName" type="text" class="form-control vName" placeholder="VSTi Name" value="BLAH BLAH BLAH" />
 								</div>
 								<div class="fieldData name col-2">
 									<label for="vstiVersion">Version</label>
-									<input id="vstiVersion" type="text" class="form-control vVersion" placeholder="Version" value="" />
+									<input id="vstiVersion" type="text" class="form-control vVersion" placeholder="Version" value="1.00.1" />
 								</div>
 								<div class="fieldData col-2">
 									<label for="vstiFormat">Format</label>
-									<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" value="" />
+									<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" value="DLL" />
 								</div>
 
 								<div class="fieldData ratingStars col-3">
@@ -225,7 +225,7 @@
 						  <div class="form-row justify-content-center">				  	
 							<div class="fieldData col-6">
 								<label for="vstiDescription">Description:</label>
-								<input id="vstiDescription" type="text" class="form-control fileformat" placeholder="Enter a description of the plugin" value="" />
+								<input id="vstiDescription" type="text" class="form-control fileformat" placeholder="Enter a description of the plugin" value="A genuine beauty. Why didnt I find this before now" />
 							</div>				  							
 							<div class="reviewField fieldData col-6">
 								<label for="vstiReview">Review:</label>
@@ -285,9 +285,21 @@
 				var dVSTiRating = document.getElementById('vstiRating').value;
 				var dVSTiReview	= document.getElementById('vstiReview').value;
 
+				var vstiName = document.getElementById('vstiName').value;
+				var dObjID = dVSTiName.slice(0, 4) + '-' + Math.floor(Math.random() * 100);
+					/* 
+						obtain a dynamic, unique ID (using first four chars of the VSTi name, '-', and a random 0-99 suffix) 
+						for the constructor object that gets created by the forms Add VSTi event handler 
+					*/				
+				var vstiVersion = document.getElementById('vstiVersion').value;
+				var vstiDescription = document.getElementById('vstiDescription').value;
+				var vstiFormat = document.getElementById('vstiFormat').value;
+				var vstiRating = document.getElementById('vstiRating').value;
+				var vstiReview	= document.getElementById('vstiReview').value;				
+
 			/* Setup up any event listeners here */
 				/* Triggered when user clicks Cancel from the Add VSTi modal */
-				document.getElementById('defaultAddBtn').addEventListener('click', popVSTiModal);			
+				document.getElementById('addVstiBtn').addEventListener('click', popVSTiModal);			
 			
 				/* Triggered when user clicks Cancel from the Add VSTi modal */
 				document.getElementById('cancelVstiSubmit').addEventListener('click', cancelSubmit);
@@ -307,10 +319,10 @@
 						console.log('    ' + dataRowCheck + ' ele(s) with classname of dataRow exist on this page.');
 						if (dataRowCheck < 2) {
 							noDataMsg.style.display = "block";
-							console.log('    There is \<\= 1 ele with classname of dataRow, so no data to display, SHOW the default warning msg.');				
+							console.log('    There is \<\= 1 ele with classname of dataRow, there is no data to display, so SHOW the default warning msg.');				
 						} else {
 							noDataMsg.style.display = "none";
-							console.log('    Since there is > 1 ele with classname of dataRow, so there is data to display, HIDE the default warning msg.');					
+							console.log('    Since there is > 1 ele with classname of dataRow, there is data to display, so HIDE the default warning msg.');					
 						}
 					}
 					killMsg();
@@ -335,17 +347,17 @@
 
 					function submitNewVSTi() {
 						var vForm = document.getElementById('vstiEntry');
-						var dVSTiName = document.getElementById('vstiName').value;
-						var dObjID = dVSTiName.slice(0, 4) + '-' + Math.floor(Math.random() * 100);
+						var vstiName = document.getElementById('vstiName').value;
+						var dObjID = vstiName.slice(0, 4) + '-' + Math.floor(Math.random() * 100);
 							/* 
 								obtain a dynamic, unique ID (using first four chars of the VSTi name, '-', and a random 0-99 suffix) 
 								for the constructor object that gets created by the forms Add VSTi event handler 
 							*/				
-						var dVSTiVersion = document.getElementById('vstiVersion').value;
-						var dVSTiDescription = document.getElementById('vstiDescription').value;
-						var dVSTiFormat = document.getElementById('vstiFormat').value;
-						var dVSTiRating = document.getElementById('vstiRating').value;
-						var dVSTiReview	= document.getElementById('vstiReview').value;
+						var vstiVersion = document.getElementById('vstiVersion').value;
+						var vstiDescription = document.getElementById('vstiDescription').value;
+						var vstiFormat = document.getElementById('vstiFormat').value;
+						var vstiRating = document.getElementById('vstiRating').value;
+						var vstiReview	= document.getElementById('vstiReview').value;
 
 
 						console.error('******* NOW ENTERING addNewVSTi() = Make a new dataRow with current field values.');
@@ -373,26 +385,42 @@
 							myNewID = dObjID;
 							myNewRow.setAttribute("id", myNewID);
 
-							var newObjID = new vsti(dObjID, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview);								
+							var newObjID = new vsti(dObjID, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview);
+
+							console.log('    New dataRow successfully cloned.');
+							/* PROOF: console.log('    New row successfully cloned as:' + myNewRow.innerHTML	);	*/
 
 						/* Set form field values based on entries */
-							document.getElementById('vstiName').value=dVSTiName;			
-							document.getElementById('vstiVersion').value=dVSTiVersion;
-							document.getElementById('vstiDescription').value=dVSTiDescription;
-							document.getElementById('vstiFormat').value=dVSTiFormat;
-							document.getElementById('vstiReview').value=dVSTiReview;
+/*								var resultIs = document.querySelector(myNewRow).val=drVstiVersion;
+								var vstiDescription = dVSTiDescription;
+								var vstiFormat = dVSTiDescription;
+								var vstiReview= dVSTiDescription;*/
+
+							var newRowID 		= document.getElementById(myNewID);
+							var newName 		= newRowID.querySelector('.dVSTiName');
+							var newVersion 		= newRowID.querySelector('.dVSTiVersion');
+							var newDescription	= newRowID.querySelector('.dVSTiDescription');
+							var newFormat 		= newRowID.querySelector('.dVSTiFormat');
+							var newRating 		= newRowID.querySelector('.dVSTiRating');
+							var newReview 		= newRowID.querySelector('.dVSTiReview');
+																												
+							newName.innerHTML=vstiName;
+							newVersion.innerHTML=vstiVersion;
+							newDescription.innerHTML=vstiDescription;
+							newFormat.innerHTML=vstiFormat;
+							newRating.innerHTML=vstiRating;
+							newReview.innerHTML=vstiReview;																																			
+							
+							var resultIs = newName + '\n' + newVersion + '\n' + newDescription + '\n' + newFormat + '\n' + newRating + '\n' + newReview;
 
 							console.log(
-								'And the survey says ...: ' + 
-								document.getElementById('vstiName').value + 			
-								document.getElementById('vstiVersion').value + 
-								document.getElementById('vstiDescription').value + 
-								document.getElementById('vstiFormat').value + 
-								document.getElementById('vstiReview').value
-							);
-
-						/*	Confirm that the cloning was successful: */
-						console.log('    Confirm that the cloning was successful and new values are stored.');																			
+								'    New dataRow values are: ' + '\n' + newRowID.innerText
+/*								dVSTiName + 			
+								vstiVersion + 
+								vstiDescription + 
+								vstiFormat + 
+								vstiReview*/
+							);																		
 
 						/*	TESTING LOGS:  */
 						/*	
