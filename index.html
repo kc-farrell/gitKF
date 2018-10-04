@@ -111,7 +111,17 @@
 						</div>
 					</div>
 					<!-- Begin: Default Data Row -->
-					<div id="" class="dataRow row">
+					<div id="defaultData" class="row text-center">
+						<div class="col-12">
+							WHAT IS WRONG WITH YOU PEOPLE? WHAT DON'T YOU UNDERSTAND?
+							<br />THERE IS NO DATA TO DISPLAY! GO AHEAD AND CLICK THE GD BUTTON ALREADY, SO I DON'T HAVE TO! =====>>
+							<button 
+								id="defaultAddBtn" class="btn btn-default Edit" 
+								type="button" data-toggle="modal" data-target="#VSTiInsertModal">add new vsti
+							</button>
+						</div>
+					</div>
+					<div id="vstiInsertTemplate" class="dataRow row">
 						<div class="col-1 fieldData text-center">
 							<button 
 								type="button" 
@@ -127,12 +137,11 @@
 						</div>
 						<div class="col-2 fieldData">
 							<details>
-								<summary>Description</summary> 
-								<span id="dVSTiDescription"></span>
+								<summary>No data available.</summary> 
+								<span id="dVSTiDescription">No VSTi plugins have been added. Click the <strong>Add New VSTi</strong> button to add a new plugin to the list.</span>
 							</details>
 						</div>
 						<div id="dVSTiFormat" class="col fieldData text-center">
-							
 						</div>
 						<div class="col-5 fieldData">
 							<details>
@@ -155,11 +164,8 @@
 
 			<footer>
 				<div id="userInteraction" class="row justify-content-center insertNewItem">
-					<div class="col-2">
-						<button type="button" class="btn btn-default Edit" data-toggle="modal" data-target="#VSTiInsertModal">add new vsti</button>
-					</div>
 					<div id="testingDiv" class="col-8">testing div</div>					
-					<div class="col-2 text-center">
+					<div class="col-4 text-center">
 						<meter id="reviewQty" value="2" min="0" max="10"></meter>
 						<br />
 						<label for "reviewQty">2 out of 5 VSTi plugins have been rated.</label>
@@ -169,7 +175,7 @@
 			<!-- Begin: Insert Form Modal -->
 				<div id="VSTiInsertModal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="VSTiInsertModalLabel" aria-hidden="true">
 				  <div class="modal-dialog modal-lg" role="document">
-					<form id="vstiEntry">			  	
+					<form id="vstiEntry" action="">			  	
 					<div class="modal-content">
 					  <div class="modal-header">
 						<h5 class="modal-title" id="VSTiInsertModalLabel">Insert New VSTi Plugin</h5>
@@ -178,18 +184,18 @@
 						</button>
 					  </div>
 					  <div class="modal-body">
-						  <div class="dataRow form-row justify-content-center">
+						  <div class="form-row justify-content-center">
 								<div class="fieldData name col-5">
 									<label for="vstiName">VSTi Name</label>
 									<input id="vstiName" type="text" class="form-control vName" placeholder="VSTi Name" value="BUTKISS" />
 								</div>
 								<div class="fieldData name col-2">
 									<label for="vstiVersion">Version</label>
-									<input id="vstiVersion" type="text" class="form-control vVersion" placeholder="Version" />
+									<input id="vstiVersion" type="text" class="form-control vVersion" placeholder="Version" value="" />
 								</div>
 								<div class="fieldData col-2">
 									<label for="vstiFormat">Format</label>
-									<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" />
+									<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" value="" />
 								</div>
 
 								<div class="fieldData ratingStars col-3">
@@ -213,13 +219,13 @@
 									</span>					
 								</div>
 						  </div>
-						  <div class="dataRow form-row justify-content-center">
+						  <div class="form-row justify-content-center">
 								<div class="col">&nbsp;</div>
 						  </div>
-						  <div class="dataRow form-row justify-content-center">				  	
+						  <div class="form-row justify-content-center">				  	
 							<div class="fieldData col-6">
 								<label for="vstiDescription">Description:</label>
-								<input id="vstiDescription" type="text" class="form-control fileformat" placeholder="Enter a description of the plugin" />
+								<input id="vstiDescription" type="text" class="form-control fileformat" placeholder="Enter a description of the plugin" value="" />
 							</div>				  							
 							<div class="reviewField fieldData col-6">
 								<label for="vstiReview">Review:</label>
@@ -229,8 +235,8 @@
 						  </div>
 					  </div>
 					  <div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
-						<button id="vstiSubmit" type="button" class="btn btn-primary">submit</button> ;
+						<button id="cancelVstiSubmit" type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+						<button id="vstiSubmit" type="submit" class="btn btn-primary" data-dismiss="modal">submit</button> ;
 					  </div>						
 					</form>
 					</div>
@@ -265,7 +271,7 @@
 
 		// Begin: 	DocReady
 		$( document ).ready(function() {
-			/* Set all variables here: */
+			/* Set all variables here: d=dyamic fields*/
 				var vForm = document.getElementById('vstiEntry');
 				var dVSTiName = document.getElementById('vstiName').value;
 				var dObjID = dVSTiName.slice(0, 4) + '-' + Math.floor(Math.random() * 100);
@@ -279,37 +285,129 @@
 				var dVSTiRating = document.getElementById('vstiRating').value;
 				var dVSTiReview	= document.getElementById('vstiReview').value;
 
-			/* Create the prototype for constructor object using dynamic values to build new objects from. */
-				function vsti(cObj, name, version, description, format, rating, review) {
-					this.cObj = dObjID; 
-					this.name = name;
-					this.version = version;
-					this.description = description;
-					this.format = format;
-					this.rating = rating;
-					this.review = review;
-				}
+			/* Setup up any event listeners here */
+				/* Triggered when user clicks Cancel from the Add VSTi modal */
+				document.getElementById('defaultAddBtn').addEventListener('click', popVSTiModal);			
+			
+				/* Triggered when user clicks Cancel from the Add VSTi modal */
+				document.getElementById('cancelVstiSubmit').addEventListener('click', cancelSubmit);
 
-			/*
-				TESTING STUFF:
-				console.log('BEGIN: Build a new constructor object from vsti named: ' + dObjID);
-			*/
+				/* When user clicks Submit from the Add VSTi modal: */
+				document.getElementById('vstiSubmit').addEventListener('click', submitNewVSTi);
+				/* Since there is now a new dataRow, the default hostile msg can be removed IF THERE IS DATA */				
+				document.getElementById('vstiSubmit').addEventListener('click', killMsg);				
 
-			/* Clone the dataRow (template) w default values */
-				var sourceRow = document.getElementsByClassName('dataRow')[0]; // Grab the first dataRow to use as HTML template 
-				var destination = document.getElementById('outputList'); // Set destination for the cloned div 
-				var cln = sourceRow.cloneNode(true);
-				destination.appendChild(cln);
-			/*	Confirm that the cloning was successful: */				
-				myNewRow = destination.lastChild; // Get the latest dataRow from the page 
-				myNewID = dObjID;
-				myNewRow.setAttribute("id", myNewID);
+				/* Event trigger callback functions */
+					function killMsg() {
+						var noDataMsg = document.getElementById('defaultData');
+						/*doc has a dataRow and its ID isnt  vstiTemplateData */
+						var dataRowCheck = document.getElementsByClassName('dataRow').length;
+
+						console.error('Entering killMsg() = Does a check for elements with classname dataRow.');
+						console.log('    ' + dataRowCheck + ' ele(s) with classname of dataRow exist on this page.');
+						if (dataRowCheck < 2) {
+							noDataMsg.style.display = "block";
+							console.log('    There is \<\= 1 ele with classname of dataRow, so no data to display, SHOW the default warning msg.');				
+						} else {
+							noDataMsg.style.display = "none";
+							console.log('    Since there is > 1 ele with classname of dataRow, so there is data to display, HIDE the default warning msg.');					
+						}
+					}
+					killMsg();
+
+					function popVSTiModal() {
+						console.error('Entering popVSTiModal() = User has clicked Add from the default msg row.');
+						console.log('    When modal is accessed from warning msg row, the default field values are: ' + '\n' + 
+							'      dObjID: ' + dObjID + '\n' + 
+							'      dVSTiName: ' + dVSTiName + '\n' + 
+							'      dVSTiVersion: ' + dVSTiVersion + '\n' + 
+							'      dVSTiDescription: ' + dVSTiDescription + '\n' + 
+							'      dVSTiFormat: ' + dVSTiFormat + '\n' + 
+							'      dVSTiReview: ' + dVSTiReview + '\n'
+						);
+						console.log('    Nothing happens in this function, yet. Placeholder for initial modal pop callback.');				
+					}
+					
+
+					function cancelSubmit() {
+						console.error('Entering cancelSubmit() = USER CLICKED CANCEL.');
+					}
+
+					function submitNewVSTi() {
+						var vForm = document.getElementById('vstiEntry');
+						var dVSTiName = document.getElementById('vstiName').value;
+						var dObjID = dVSTiName.slice(0, 4) + '-' + Math.floor(Math.random() * 100);
+							/* 
+								obtain a dynamic, unique ID (using first four chars of the VSTi name, '-', and a random 0-99 suffix) 
+								for the constructor object that gets created by the forms Add VSTi event handler 
+							*/				
+						var dVSTiVersion = document.getElementById('vstiVersion').value;
+						var dVSTiDescription = document.getElementById('vstiDescription').value;
+						var dVSTiFormat = document.getElementById('vstiFormat').value;
+						var dVSTiRating = document.getElementById('vstiRating').value;
+						var dVSTiReview	= document.getElementById('vstiReview').value;
 
 
-				console.log(myNewRow.innerHTML + '...' + myNewID);
+						console.error('******* NOW ENTERING addNewVSTi() = Make a new dataRow with current field values.');
+						/* Create the prototype constructor object using dynamic values to build new objects from. */
+						console.log('    Initialize the prototype constructor object using dynamic values to build new objects from.');
+									
+						function vsti(obj, name, version, description, format, rating, review) {
+							this.obj = dObjID; 
+							this.name = name;
+							this.version = version;
+							this.description = description;
+							this.format = format;
+							this.rating = rating;
+							this.review = review;
+						}
+						
+						console.log('    Clone the dataRow (template) and generate a new dataRow with a dynamic ID.');
+						/* Clone the dataRow (template) w default values */
+							var sourceRow = document.getElementsByClassName('dataRow')[0]; // Grab the first dataRow to use as HTML template 
+							var destination = document.getElementById('outputList'); // Set destination for the cloned div 
+							var cln = sourceRow.cloneNode(true);
+							destination.appendChild(cln);					
+										
+							myNewRow = destination.lastChild; // Get the latest dataRow from the page 
+							myNewID = dObjID;
+							myNewRow.setAttribute("id", myNewID);
 
-				//var objID = new vsti(cObj, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview);
+							var newObjID = new vsti(dObjID, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview);								
+
+						/* Set form field values based on entries */
+							document.getElementById('vstiName').value=dVSTiName;			
+							document.getElementById('vstiVersion').value=dVSTiVersion;
+							document.getElementById('vstiDescription').value=dVSTiDescription;
+							document.getElementById('vstiFormat').value=dVSTiFormat;
+							document.getElementById('vstiReview').value=dVSTiReview;
+
+							console.log(
+								'And the survey says ...: ' + 
+								document.getElementById('vstiName').value + 			
+								document.getElementById('vstiVersion').value + 
+								document.getElementById('vstiDescription').value + 
+								document.getElementById('vstiFormat').value + 
+								document.getElementById('vstiReview').value
+							);
+
+						/*	Confirm that the cloning was successful: */
+						console.log('    Confirm that the cloning was successful and new values are stored.');																			
+
+						/*	TESTING LOGS:  */
+						/*	
+							console.log(myNewRow.innerHTML + '...' + myNewID);
+							console.error(vsti.prototype.toString() );
+						*/									
+						console.error('******* DO FIELD VALIDATION ********');
+
+		
+					}
+
 		});
+
+
+		
 		// End: 	DocReady
 	</script>
 </html>
