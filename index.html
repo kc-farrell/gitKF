@@ -160,7 +160,7 @@
 				<div id="userInteraction" class="row justify-content-center insertNewItem">
 					<div class="col-1 fieldData text-center">
 						<button 
-							id="addVstiBtn" class="btn btn-default Edit" 
+							id="addNewVstiBtn" class="btn btn-default Edit" 
 							type="button" data-toggle="modal" data-target="#VSTiInsertModal">add new vsti
 						</button>
 					</div>						
@@ -187,15 +187,15 @@
 						  <div class="form-row justify-content-center">
 								<div class="fieldData name col-5">
 									<label for="vstiName">VSTi Name</label>
-									<input id="vstiName" type="text" class="form-control vName" placeholder="VSTi Name" value="BLAH BLAH BLAH" />
+									<input id="vstiName" type="text" class="form-control vName" placeholder="VSTi Name" value="" />
 								</div>
 								<div class="fieldData name col-2">
 									<label for="vstiVersion">Version</label>
-									<input id="vstiVersion" type="text" class="form-control vVersion" placeholder="Version" value="1.00.1" />
+									<input id="vstiVersion" type="text" class="form-control vVersion" placeholder="Version" value="" />
 								</div>
 								<div class="fieldData col-2">
 									<label for="vstiFormat">Format</label>
-									<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" value="DLL" />
+									<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" value="" />
 								</div>
 
 								<div class="fieldData ratingStars col-3">
@@ -225,12 +225,14 @@
 						  <div class="form-row justify-content-center">				  	
 							<div class="fieldData col-6">
 								<label for="vstiDescription">Description:</label>
-								<input id="vstiDescription" type="text" class="form-control fileformat" placeholder="Enter a description of the plugin" value="A genuine beauty. Why didnt I find this before now" />
+								<input id="vstiDescription" 
+									   type="text" class="form-control fileformat" 
+									   placeholder="" 
+									   value="" />
 							</div>				  							
 							<div class="reviewField fieldData col-6">
 								<label for="vstiReview">Review:</label>
-								<textarea id="vstiReview" class="reviewData" maxlength="150">This textarea has a character limit of 150.
-								</textarea>
+								<textarea id="vstiReview" class="reviewData" maxlength="150" placeholder="This textarea has a character limit of 150.">	</textarea>
 							</div>
 						  </div>
 					  </div>
@@ -246,14 +248,6 @@
 		</main>
 	</body>
 	<script type="text/javascript">
-		/* Begin: 	Common console logs */
-			/*
-				console.error("getting to this point");
-				console.error("show an array");
-				console.error("give status on something");		
-			*/
-		/* End: 	Common console logs */
-
 		/*
 			// Loop through Divs using Javascript.
 			var divs = document.querySelectorAll('div'), i;
@@ -271,43 +265,20 @@
 
 		// Begin: 	DocReady
 		$( document ).ready(function() {
-			/* Set all variables here: d=dyamic fields*/
-				var vForm = document.getElementById('vstiEntry');
-				var dVSTiName = document.getElementById('vstiName').value;
-				var dObjID = dVSTiName.slice(0, 4) + '-' + Math.floor(Math.random() * 100);
-					/* 
-						obtain a dynamic, unique ID (using first four chars of the VSTi name, '-', and a random 0-99 suffix) 
-						for the constructor object that gets created by the forms Add VSTi event handler 
-					*/				
-				var dVSTiVersion = document.getElementById('vstiVersion').value;
-				var dVSTiDescription = document.getElementById('vstiDescription').value;
-				var dVSTiFormat = document.getElementById('vstiFormat').value;
-				var dVSTiRating = document.getElementById('vstiRating').value;
-				var dVSTiReview	= document.getElementById('vstiReview').value;
-
-				var vstiName = document.getElementById('vstiName').value;
-				var dObjID = dVSTiName.slice(0, 4) + '-' + Math.floor(Math.random() * 100);
-					/* 
-						obtain a dynamic, unique ID (using first four chars of the VSTi name, '-', and a random 0-99 suffix) 
-						for the constructor object that gets created by the forms Add VSTi event handler 
-					*/				
-				var vstiVersion = document.getElementById('vstiVersion').value;
-				var vstiDescription = document.getElementById('vstiDescription').value;
-				var vstiFormat = document.getElementById('vstiFormat').value;
-				var vstiRating = document.getElementById('vstiRating').value;
-				var vstiReview	= document.getElementById('vstiReview').value;				
-
-			/* Setup up any event listeners here */
+			/* Setup up event listeners here */
 				/* Triggered when user clicks Cancel from the Add VSTi modal */
-				document.getElementById('addVstiBtn').addEventListener('click', popVSTiModal);			
+				document.getElementById('addNewVstiBtn').addEventListener('click', popVSTiModal);			
 			
 				/* Triggered when user clicks Cancel from the Add VSTi modal */
 				document.getElementById('cancelVstiSubmit').addEventListener('click', cancelSubmit);
 
 				/* When user clicks Submit from the Add VSTi modal: */
 				document.getElementById('vstiSubmit').addEventListener('click', submitNewVSTi);
-				/* Since there is now a new dataRow, the default hostile msg can be removed IF THERE IS DATA */				
+				/* Since there is now a new dataRow, the default hostile msg can be removed IF THERE IS DATA */	
+
 				document.getElementById('vstiSubmit').addEventListener('click', killMsg);				
+
+				document.getElementById('vstiSubmit').addEventListener('click', killMsg);								
 
 				/* Event trigger callback functions */
 					function killMsg() {
@@ -327,44 +298,57 @@
 					}
 					killMsg();
 
+					function editThisVsti() {
+
+					}
+
 					function popVSTiModal() {
 						console.error('Entering popVSTiModal() = User has clicked Add from the default msg row.');
-						console.log('    When modal is accessed from warning msg row, the default field values are: ' + '\n' + 
+						/*
+							console.log('    When modal is accessed from warning msg row, the default field values are: ' + '\n' + 
 							'      dObjID: ' + dObjID + '\n' + 
 							'      dVSTiName: ' + dVSTiName + '\n' + 
 							'      dVSTiVersion: ' + dVSTiVersion + '\n' + 
 							'      dVSTiDescription: ' + dVSTiDescription + '\n' + 
 							'      dVSTiFormat: ' + dVSTiFormat + '\n' + 
 							'      dVSTiReview: ' + dVSTiReview + '\n'
-						);
-						console.log('    Nothing happens in this function, yet. Placeholder for initial modal pop callback.');				
+							);
+						*/				
 					}
 					
 
 					function cancelSubmit() {
-						console.error('Entering cancelSubmit() = USER CLICKED CANCEL.');
+						console.error('Entering cancelSubmit() = User clicked cancel. Modal is closed. No dataRow is cloned until Submit.');
 					}
 
 					function submitNewVSTi() {
 						var vForm = document.getElementById('vstiEntry');
-						var vstiName = document.getElementById('vstiName').value;
-						var dObjID = vstiName.slice(0, 4) + '-' + Math.floor(Math.random() * 100);
+						var dObjID = 'vsti-' + Math.floor(Math.random() * 900);	
 							/* 
 								obtain a dynamic, unique ID (using first four chars of the VSTi name, '-', and a random 0-99 suffix) 
 								for the constructor object that gets created by the forms Add VSTi event handler 
-							*/				
-						var vstiVersion = document.getElementById('vstiVersion').value;
-						var vstiDescription = document.getElementById('vstiDescription').value;
-						var vstiFormat = document.getElementById('vstiFormat').value;
-						var vstiRating = document.getElementById('vstiRating').value;
-						var vstiReview	= document.getElementById('vstiReview').value;
+							*/
+						console.log('The randomly generated ID that will get applied to the cloned dataRow \(aka dObjID\) is : ' + dObjID);	//prove the random generator is working	
 
+						/* Provide common names for use in dataRow innerHTML (values) manipulation */																	
+							var dVSTiName = document.getElementById('vstiName').value;
+							var dVSTiVersion = document.getElementById('vstiVersion').value;
+							var dVSTiDescription = document.getElementById('vstiDescription').value;
+							var dVSTiFormat = document.getElementById('vstiFormat').value;
+							var dVSTiRating = document.getElementById('vstiRating').value;
+							var dVSTiReview	= document.getElementById('vstiReview').value;								
+						/* Provide common names for use in form field value manipulation */
+							var vstiName = document.getElementById('vstiName').value;
+							var vstiVersion = document.getElementById('vstiVersion').value;
+							var vstiDescription = document.getElementById('vstiDescription').value;
+							var vstiFormat = document.getElementById('vstiFormat').value;
+							var vstiRating = document.getElementById('vstiRating').value;
+							var vstiReview	= document.getElementById('vstiReview').value;
 
-						console.error('******* NOW ENTERING addNewVSTi() = Make a new dataRow with current field values.');
+						console.error('Entering addNewVSTi() = Create a new cloned dataRow and apply the dynamic ID to the row.');
 						/* Create the prototype constructor object using dynamic values to build new objects from. */
-						console.log('    Initialize the prototype constructor object using dynamic values to build new objects from.');
 									
-						function vsti(obj, name, version, description, format, rating, review) {
+						function Vsti(obj, name, version, description, format, rating, review) {
 							this.obj = dObjID; 
 							this.name = name;
 							this.version = version;
@@ -376,26 +360,22 @@
 						
 						console.log('    Clone the dataRow (template) and generate a new dataRow with a dynamic ID.');
 						/* Clone the dataRow (template) w default values */
-							var sourceRow = document.getElementsByClassName('dataRow')[0]; // Grab the first dataRow to use as HTML template 
+							var sourceRow = document.getElementsByClassName('dataRow')[0]; // Grab the first dataRow in the document (hidden div) to use as HTML template 
 							var destination = document.getElementById('outputList'); // Set destination for the cloned div 
-							var cln = sourceRow.cloneNode(true);
-							destination.appendChild(cln);					
+							var cln = sourceRow.cloneNode(true); // Duplicate the sourceRows contents
+							destination.appendChild(cln); // and append the outputList div with the cloned template row 					
 										
-							myNewRow = destination.lastChild; // Get the latest dataRow from the page 
-							myNewID = dObjID;
-							myNewRow.setAttribute("id", myNewID);
+							myNewRow = destination.lastChild; // After cloning row, get the latest dataRow from the page 
+							myNewID = dObjID; // Grab the dynamic ID
+							myNewRow.setAttribute("id", myNewID); // Apply the dynamic ID to the dataRow
 
-							var newObjID = new vsti(dObjID, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview);
+							/* Build the new object from the prototype */
 
-							console.log('    New dataRow successfully cloned.');
-							/* PROOF: console.log('    New row successfully cloned as:' + myNewRow.innerHTML	);	*/
+							var newObjID = new Vsti(dObjID, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview);
 
 						/* Set form field values based on entries */
-/*								var resultIs = document.querySelector(myNewRow).val=drVstiVersion;
-								var vstiDescription = dVSTiDescription;
-								var vstiFormat = dVSTiDescription;
-								var vstiReview= dVSTiDescription;*/
 
+						/* Create common names for referring to el IDs */
 							var newRowID 		= document.getElementById(myNewID);
 							var newName 		= newRowID.querySelector('.dVSTiName');
 							var newVersion 		= newRowID.querySelector('.dVSTiVersion');
@@ -403,35 +383,25 @@
 							var newFormat 		= newRowID.querySelector('.dVSTiFormat');
 							var newRating 		= newRowID.querySelector('.dVSTiRating');
 							var newReview 		= newRowID.querySelector('.dVSTiReview');
-																												
+
+
+						/* Set the innerHTML of the prototype's dataRow 'values' */																												
 							newName.innerHTML=vstiName;
 							newVersion.innerHTML=vstiVersion;
 							newDescription.innerHTML=vstiDescription;
 							newFormat.innerHTML=vstiFormat;
 							newRating.innerHTML=vstiRating;
-							newReview.innerHTML=vstiReview;																																			
+							newReview.innerHTML=vstiReview;	
+
+							/* TESTING EVENT LISTENER IN A FUNC */
+																			
 							
-							var resultIs = newName + '\n' + newVersion + '\n' + newDescription + '\n' + newFormat + '\n' + newRating + '\n' + newReview;
-
 							console.log(
-								'    New dataRow values are: ' + '\n' + newRowID.innerText
-/*								dVSTiName + 			
-								vstiVersion + 
-								vstiDescription + 
-								vstiFormat + 
-								vstiReview*/
+								'    Here are the values I expect to see in the new dataRow: ' + '\n' + newObjID.name + newObjID.version
 							);																		
-
-						/*	TESTING LOGS:  */
-						/*	
-							console.log(myNewRow.innerHTML + '...' + myNewID);
-							console.error(vsti.prototype.toString() );
-						*/									
+									
 						console.error('******* DO FIELD VALIDATION ********');
-
-		
 					}
-
 		});
 
 
@@ -440,37 +410,9 @@
 	</script>
 </html>
 
-<!--
-
-/* TESTING TESTING */
-
-
-/*
-				vFormula: 46 + 2,
-				vFunc: function() {
-				console.log( "TOOL wants to know what 46 and 2 is, so: " + this.vFormula + " The plugin name is " + this.vName);
-				alert(	Object.values(vsti) );
-				}
-
-*/
-/*			
-	vstList.masterVSTiList.push(
-		{
-			vName: "BOZ Digital Labs Bark of Dog", 
-			vVersion: "BOZ Digital Labs Bark of Dog",
-			vDescription: "vstDescription", 			 			
-			vFormat: "vstFormat", 
-			vRating: 3,			
-			vReview: "vstReview"
-		}
-	);
-*/
-
--->
-
-
 <!-- PACKING LIST:
-	star rating		- https://www.everythingfrontend.com/posts/star-rating-input-pure-css.html (honorable mentions: https://css-tricks.com/star-ratings/ | https://www.cssscript.com/accessible-star-rating-system-pure-css/)
+	star rating		- https://www.everythingfrontend.com/posts/star-rating-input-pure-css.html (honorable mentions: https://css-tricks.com/star-ratings/ 
+					  | https://www.cssscript.com/accessible-star-rating-system-pure-css/)
 	design reqs		- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details
 	audio demo		- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio
 -->
