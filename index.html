@@ -346,9 +346,9 @@
 							var vstiReview	= document.getElementById('vstiReview').value;
 
 						console.error('Entering addNewVSTi() = Create a new cloned dataRow and apply the dynamic ID to the row.');
-						/* Create the prototype constructor object using dynamic values to build new objects from. */
-									
-						function Vsti(obj, name, version, description, format, rating, review) {
+
+						/* Create the prototype constructor object using dynamic values to build new objects from. */									
+						function Vsti(obj, name, version, description, format, rating, review, vmethod) {
 							this.obj = dObjID; 
 							this.name = name;
 							this.version = version;
@@ -356,6 +356,9 @@
 							this.format = format;
 							this.rating = rating;
 							this.review = review;
+							this.vmethod = function() {
+								alert('My new VSTi is ALIVE and goes by the name: ' + '<strong>' +dObjID + '</strong>' + ' afterall...what good is an Object if it cant really do anything?')	
+							};
 						}
 						
 						console.log('    Clone the dataRow (template) and generate a new dataRow with a dynamic ID.');
@@ -365,13 +368,15 @@
 							var cln = sourceRow.cloneNode(true); // Duplicate the sourceRows contents
 							destination.appendChild(cln); // and append the outputList div with the cloned template row 					
 										
-							myNewRow = destination.lastChild; // After cloning row, get the latest dataRow from the page 
-							myNewID = dObjID; // Grab the dynamic ID
+							var myNewRow = destination.lastChild; // After cloning row, get the latest dataRow from the page 
+							var myNewID = dObjID; // Grab the dynamic ID
 							myNewRow.setAttribute("id", myNewID); // Apply the dynamic ID to the dataRow
+
+							var dVSTiMethod = document.getElementById(dObjID);
 
 							/* Build the new object from the prototype */
 
-							var newObjID = new Vsti(dObjID, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview);
+							var newObjID = new Vsti(dObjID, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview, dVSTiMethod);
 
 						/* Set form field values based on entries */
 
@@ -396,12 +401,22 @@
 							/* TESTING EVENT LISTENER IN A FUNC */
 																			
 							
-							console.log(
-								'    Here are the values I expect to see in the new dataRow: ' + '\n' + newObjID.name + newObjID.version
-							);																		
+							console.log('    Here are the values I expect to see in the new dataRow: ' 
+								+ '\n' 
+								+ newObjID.name 
+								+ newObjID.version 
+								+ newObjID.vmethod
+							);
+
+							newObjID.vmethod();	
+
+																
 									
 						console.error('******* DO FIELD VALIDATION ********');
 					}
+
+					/* How can I use this globally in order to create event triggers? */
+/*							newObjID.vmethod();	*/
 		});
 
 
