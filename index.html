@@ -1,433 +1,480 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>VSTi Rating and Review App</title>
-		<meta name="description" content="Custom vsti tool for reviewing and rating vsti instruments downloaded from KVR Audio and other sites.">
-		<meta name="keywords" content="HTML,CSS,Bootstrap,JavaScript">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<!--
-			The width property controls the size of the viewport. It can be set to a specific number of pixels like width=600 or to the special value device-width, which is the width of the screen in CSS pixels at a scale of 100%. (There are corresponding height and device-height values, which may be useful for pages with elements that change size or position based on the viewport height.)
+<head>
+	<meta charset="UTF-8">
+	<title>VSTi Rating and Review App</title>
+	<meta name="description" content="Custom vsti tool for reviewing and rating vsti instruments downloaded from KVR Audio and other sites.">
+	<meta name="keywords" content="HTML,CSS,Bootstrap,JavaScript">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="KC Farrell">		
 
-			The initial-scale property controls the zoom level when the page is first loaded. The maximum-scale, minimum-scale, and user-scalable properties control how users are allowed to zoom the page in or out.
-		 -->
-		<meta name="author" content="KC Farrell">		
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/starability-all.min.css">		
+	<link rel="stylesheet" href="css/gitKF.css">		 
 
-		<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/starability-all.min.css">		
-		<link rel="stylesheet" href="css/gitKF.css">		 
+	<style rel type="text/css">/* placeholder for in-page styling */</style>
 
-		<style rel type="text/css">
-
-		</style>
-
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<!-- LOCAL VERSION of jQuery 331 <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script> -->
-		<script src="js/bootstrap.min.js"></script>			
-	</head>
-	<body class="container"><!-- optionally, use container-fluid for full viewport display -->
-		<main>
-			<article class="row">
-				<section id="appOverview" class="col-12">
-					<div id="logo" class="col-2"></div>
-					<div id="landingIntro" class="col-10">
-						<div class="col-12">
-							<h1 class="invisible">VSTi Maintenance</h1>
-							<details>
-								<summary><strong>App's Purpose</strong></summary>
-									<p>
-										The purpose of this application is to provide an interface to display, edit existing and add new VSTi plugins. 
-										From the listing, the user should be able to rate and review the plugins. Once the rating, reviews have been completed, 
-										the app should provide a sortable table of all VST instrument (VSTi) software interface plugins.
-										<br /><br />
-									</p>
-									<div class="col-12">
-										<details class="col">
-											<summary><strong>Design Requirements Checklist</strong></summary> 
-											<ul id="designReqs">
-												<li>A list of installed VSTi plugins</li>
-												<li>Ability to Edit a list item</li>
-												<li>Ability to Add a new list item</li>
-												<li>Ability to Sort the list via col headings</li>
-												<li>Basic reporting on Qty, ratings, format</li>
-												<li>Play a demo of each VSTi in the list</li>
-												<li>Display readme txt file via icon click</li>
-												<li>Use colors to designate status, like Bootstrap for Good, Bad, Untested</li>
-												<li>Display product URL/link to the download site</li>
-											</ul>
-										</details>
-										<details class="col">
-											<summary><strong>Code Features Included</strong></summary> 
-											<ul id="codeFeatures">
-												<li>HTML5 - semantic markup</li>
-												<li>HTML5 - details, summary and audio elements</li>
-												<li>CSS - Bootstrap 4.0 new implementation</li>
-												<li>CSS - LESS file, compilation of CSS from a master file</li>
-												<li>CSS - Normalize via Bootstrap</li>
-												<li>CSS - in-element breakpoints for better organization</li>
-												<li>JS - Build and maintain an object to contain the listing</li>
-												<li>JS - read from, parse, edit and insert new object members.</li>
-												<li>JS - Add elements to the DOM via push</li>
-												<li>JS - Ratings, reviews maintenance</li>
-											</ul>
-										</details>
-									</div>	
-									<p>
-										Upon completion, this app should provide a simple interface to display the highest ranked VSTis as well as 
-										a way of indicating which VSTs are not going to be used and should be removed from the main VSTi library.
-										<br /><br />
-									</p>
-									<p>
-										<strong>Instructions:</strong>
-										<br />
-										Click the <strong>Add</strong> button to insert a new VSTi list item.
-										<br />
-										Click the <strong>Edit</strong> button to edit information for an VSTi. 										
-									</p>
-							</details>
-						</div>
-				</section>
-
-				<section id="outputList" class="col-12">
-					<!-- 
-						1. Load the page with existing VSTi plugin listing.
-						2. When EDIT is clicked, 
-						   a. [ ] pop the modal
-						   a. [ ] insert a new, cloned row.
-						   b. [ ] Zap the contents of the row.
-						   c. [ ] If 
-						   			i.   [ ] CANCEL, CLOSE is clicked && not all fields are complete, revert the info entered, remove the entry, close the modal.
-						   			ii. [ ] SUBMIT is clicked, push the new elements to the object (how?), close modal (working) and display new row.
-					-->
-					<!-- Begin: Header Rows -->
-					<div id="headerRow" class="row">
-						<div class="col-1 fieldName">&nbsp;</div>						
-						<div class="col-3 fieldName">VSTi name</div>
-						<div class="col-2 fieldName">description</div>
-						<div class="col-2 fieldName">format</div>
-						<div class="col-4 fieldName">
-							<div class="">rating | review</div>
-						</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- Above uses Google CDN for jQuery. But LOCAL VERSION of jQuery 331 is also available as: <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script> -->
+	<!-- CDN for Bootstrap 4 avail? -->
+	<script src="js/bootstrap.min.js"></script>			
+</head>
+<body class="container"><!-- optionally, use container-fluid for full viewport display -->
+	<main>
+		<article class="row">
+			<section id="appOverview" class="col-12">
+				<div id="logo" class="col-2"></div>
+				<div id="landingIntro" class="col-10">
+					<div class="col-12">
+						<h1 class="invisible">VSTi Maintenance</h1>
+						<details>
+							<summary><strong>App's Purpose</strong></summary>
+								<p>
+									The purpose of this application is to provide an interface to display, edit existing and add new VSTi plugins. 
+									From the listing, the user should be able to rate and review the plugins. Once the rating, reviews have been completed, 
+									the app should provide a sortable table of all VST instrument (VSTi) software interface plugins.
+									<br /><br />
+								</p>
+								<div class="col-12">
+									<details class="col">
+										<summary><strong>Design Requirements Checklist</strong></summary> 
+										<ul id="designReqs">
+											<li>A list of installed VSTi plugins</li>
+											<li>Ability to Edit a list item</li>
+											<li>Ability to Add a new list item</li>
+											<li>Ability to Sort the list via col headings</li>
+											<li>Basic reporting on Qty, ratings, format</li>
+											<li>Play a demo of each VSTi in the list</li>
+											<li>Display readme txt file via icon click</li>
+											<li>Use colors to designate status, like Bootstrap for Good, Bad, Untested</li>
+											<li>Display product URL/link to the download site</li>
+										</ul>
+									</details>
+									<details class="col">
+										<summary><strong>Code Features Included</strong></summary> 
+										<ul id="codeFeatures">
+											<li>HTML5 - semantic markup</li>
+											<li>HTML5 - details, summary and audio elements</li>
+											<li>CSS - Bootstrap 4.0 new implementation</li>
+											<li>CSS - LESS file, compilation of CSS from a master file</li>
+											<li>CSS - Normalize via Bootstrap</li>
+											<li>CSS - in-element breakpoints for better organization</li>
+											<li>JS - Build and maintain an object to contain the listing</li>
+											<li>JS - read from, parse, edit and insert new object members.</li>
+											<li>JS - Add elements to the DOM via push</li>
+											<li>JS - Ratings, reviews maintenance</li>
+										</ul>
+									</details>
+								</div>	
+								<p>
+									Upon completion, this app should provide a simple interface to display the highest ranked VSTis as well as 
+									a way of indicating which VSTs are not going to be used and should be removed from the main VSTi library.
+									<br /><br />
+								</p>
+								<p>
+									<strong>Instructions:</strong>
+									<br />
+									Click the <strong>Add</strong> button to insert a new VSTi list item.
+									<br />
+									Click the <strong>Edit</strong> button to edit information for an VSTi. 										
+								</p>
+								<p>
+									A plugin is a generic name for a 3rd party add-on program. They can be different effects, or instruments, or the combination of those.
+									<br />
+									VST is a plugin format - the most popular plugin format, in fact. So popular that the term has come somewhat synonymous with "plugin"...so no wonder it can be somewhat confusing. There have been numerous plugin formats along the way but the ones you see nowadays are: VST (which stands for Virtual Studio Technology), AU (Audio Unit, Mac specific) & RTAS/AAX (ProTools specific plugins).
+									<br />
+									And yes, preset simply means pre-made settings, a collection of parameters already adjusted to achieve a certain sound or effect.
+								</p>
+						</details>
 					</div>
-					<!-- Begin: Default Data Row -->
-					<div id="defaultData" class="row text-center">
-						<div class="col-12">
-							WHAT IS WRONG WITH YOU PEOPLE? WHAT DON'T YOU UNDERSTAND?
-							<br />THERE IS NO DATA TO DISPLAY! GO AHEAD AND CLICK THE GD BUTTON ALREADY, SO I DON'T HAVE TO!
-						</div>
-					</div>
-					<div id="vstiInsertTemplate" class="dataRow row">
-						<div class="col-1 fieldData text-center">
-							<button 
-								type="button" 
-								class="btn btn-default Edit" 
-								data-toggle="modal" 
-								data-target="#VSTiInsertModal">
-								edit
-							</button>
-						</div>						
-						<div class="col-3 fieldData">
-							<span class="dVSTiName"></span> 
-							<span class="dVSTiVersion" class="version"></span>
-						</div>
-						<div class="col-2 fieldData">
-							<details>
-								<summary>Description</summary> 
-								<span class="dVSTiDescription">No VSTi plugins have been added. Click the <strong>Add New VSTi</strong> button to add a new plugin to the list.</span>
-							</details>
-						</div>
-						<div class="col-2 fieldData text-center dVSTiFormat">
-						</div>
-						<div class="col-4 fieldData">
-							<span class="dVSTiRating"></span>
-							<span class="dVSTiReview"></span>							
-							<div class="vDemo col">
-							<!--								
-								<audio controls>
-									<source src="myAudio.mp3" type="audio/mp3">
-									<source src="myAudio.ogg" type="audio/ogg">
-								</audio>
-							-->
-							</div>
-						</div>
-					</div>
-					<!-- End: Default .dataRow. All rows below should be dynamically generated. -->
-				</section>
-			</article>
+			</section>
 
-			<footer>
-				<div id="userInteraction" class="row justify-content-center insertNewItem">
+			<section id="outputList" class="col-12">
+				<!-- 
+					1. Load the page with existing VSTi plugin listing.
+					2. When EDIT is clicked, 
+					   a. [ ] pop the modal
+					   a. [ ] insert a new, cloned row.
+					   b. [ ] Zap the contents of the row.
+					   c. [ ] If 
+					   			i.   [ ] CANCEL, CLOSE is clicked && not all fields are complete, revert the info entered, remove the entry, close the modal.
+					   			ii. [ ] SUBMIT is clicked, push the new elements to the object (how?), close modal (working) and display new row.
+				-->
+				<!-- Begin: Header Rows -->
+				<div id="headerRow" class="row">
+					<div class="col-1 fieldName">&nbsp;</div>						
+					<div class="col-3 fieldName">VSTi name</div>
+					<div class="col-2 fieldName">description</div>
+					<div class="col-2 fieldName">format</div>
+					<div class="col-4 fieldName">
+						<div class="">rating | review</div>
+					</div>
+				</div>
+				<!-- Begin: Default Data Row -->
+				<div id="defaultData" class="row text-center">
+					<div class="col-12">
+						WHAT IS WRONG WITH YOU PEOPLE? WHAT DON'T YOU UNDERSTAND?
+						<br />THERE IS NO DATA TO DISPLAY! GO AHEAD AND CLICK THE GD BUTTON ALREADY, SO I DON'T HAVE TO!
+					</div>
+				</div>
+				<div id="vstiInsertTemplate" class="dataRow row">
 					<div class="col-1 fieldData text-center">
 						<button 
-							id="addNewVstiBtn" class="btn btn-default Edit" 
-							type="button" data-toggle="modal" data-target="#VSTiInsertModal">add new vsti
+							type="button" 
+							class="btn btn-default Edit" 
+							data-toggle="modal" 
+							data-target="#VSTiInsertModal">
+							edit
 						</button>
 					</div>						
-					<div id="testingDiv" class="col-2">testing div</div>					
-					<div class="col-6 text-center">
-						<meter id="reviewQty" value="2" min="0" max="10"></meter>
-						<br />
-						<label for "reviewQty">2 out of 5 VSTi plugins have been rated.</label>
-					</div>					
-				</div>
-			</footer>
-			<!-- Begin: Insert Form Modal -->
-				<div id="VSTiInsertModal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="VSTiInsertModalLabel" aria-hidden="true">
-				  <div class="modal-dialog modal-lg" role="document">
-					<form id="vstiEntry" action="">			  	
-					<div class="modal-content">
-					  <div class="modal-header">
-						<h5 class="modal-title" id="VSTiInsertModalLabel">Insert New VSTi Plugin</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						  <span aria-hidden="true">&times;</span>
-						</button>
-					  </div>
-					  <div class="modal-body">
-						  <div class="form-row justify-content-center">
-								<div class="fieldData name col-5">
-									<label for="vstiName">VSTi Name</label>
-									<input id="vstiName" type="text" class="form-control vName" placeholder="VSTi Name" value="" />
-								</div>
-								<div class="fieldData name col-2">
-									<label for="vstiVersion">Version</label>
-									<input id="vstiVersion" type="text" class="form-control vVersion" placeholder="Version" value="" />
-								</div>
-								<div class="fieldData col-2">
-									<label for="vstiFormat">Format</label>
-									<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" value="" />
-								</div>
-
-								<div class="fieldData ratingStars col-3">
-									<label class="col-12" for="editRating">Rating</label>
-									<span id="vstiRating" class="rating">
-									    <input type="radio" class="rating-input"
-									           id="rating-input-1-5" name="rating-input-1">
-									    <label for="rating-input-1-5" class="rating-star"></label>
-									    <input type="radio" class="rating-input"
-									           id="rating-input-1-4" name="rating-input-1">
-									    <label for="rating-input-1-4" class="rating-star"></label>
-									    <input type="radio" class="rating-input"
-									           id="rating-input-1-3" name="rating-input-1">
-									    <label for="rating-input-1-3" class="rating-star"></label>
-									    <input type="radio" class="rating-input"
-									           id="rating-input-1-2" name="rating-input-1">
-									    <label for="rating-input-1-2" class="rating-star"></label>
-									    <input type="radio" class="rating-input"
-									           id="rating-input-1-1" name="rating-input-1">
-									    <label for="rating-input-1-1" class="rating-star"></label>
-									</span>					
-								</div>
-						  </div>
-						  <div class="form-row justify-content-center">
-								<div class="col">&nbsp;</div>
-						  </div>
-						  <div class="form-row justify-content-center">				  	
-							<div class="fieldData col-6">
-								<label for="vstiDescription">Description:</label>
-								<input id="vstiDescription" 
-									   type="text" class="form-control fileformat" 
-									   placeholder="" 
-									   value="" />
-							</div>				  							
-							<div class="reviewField fieldData col-6">
-								<label for="vstiReview">Review:</label>
-								<textarea id="vstiReview" class="reviewData" maxlength="150" placeholder="This textarea has a character limit of 150.">	</textarea>
-							</div>
-						  </div>
-					  </div>
-					  <div class="modal-footer">
-						<button id="cancelVstiSubmit" type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
-						<button id="vstiSubmit" type="submit" class="btn btn-primary" data-dismiss="modal">submit</button> ;
-					  </div>						
-					</form>
+					<div class="col-3 fieldData">
+						<span class="dVSTiName"></span> 
+						<span class="dVSTiVersion" class="version"></span>
 					</div>
-				  </div>
+					<div class="col-2 fieldData">
+						<details>
+							<summary>Description</summary> 
+							<span class="dVSTiDescription">No VSTi plugins have been added. Click the <strong>Add New VSTi</strong> button to add a new plugin to the list.</span>
+						</details>
+					</div>
+					<div class="col-2 fieldData text-center dVSTiFormat">
+					</div>
+					<div class="col-4 fieldData">
+						<span class="dVSTiRating"></span>
+						<span class="dVSTiReview"></span>							
+						<div class="vDemo col">
+						<!--								
+							<audio controls>
+								<source src="myAudio.mp3" type="audio/mp3">
+								<source src="myAudio.ogg" type="audio/ogg">
+							</audio>
+						-->
+						</div>
+					</div>
 				</div>
-			<!-- End: Insert Form Modal -->
-		</main>
-	</body>
-	<script type="text/javascript">
+				<!-- End: Default .dataRow. All rows below should be dynamically generated. -->
+			</section>
+		</article>
+
+		<footer>
+			<div id="userInteraction" class="row justify-content-center insertNewItem">
+				<div class="col-1 fieldData text-center">
+					<button 
+						id="addNewVstiBtn" class="btn btn-default Edit" 
+						type="button" data-toggle="modal" data-target="#VSTiInsertModal">add new vsti
+					</button>
+				</div>						
+				<div id="testingDiv" class="col-2">testing div</div>					
+				<div class="col-6 text-center">
+					<meter id="reviewQty" value="2" min="0" max="10"></meter>
+					<br />
+					<label for "reviewQty">2 out of 5 VSTi plugins have been rated.</label>
+				</div>
+				<div id="sandbox" class="col-12">THIS n THAT</div>					
+			</div>
+		</footer>
+		<!-- Begin: Insert Form Modal -->
+			<div id="VSTiInsertModal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="VSTiInsertModalLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-lg" role="document">
+				<form id="vstiEntry" action="">			  	
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="VSTiInsertModalLabel">Insert New VSTi Plugin</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				  </div>
+				  <div class="modal-body">
+					  <div class="form-row justify-content-center">
+							<div class="fieldData name col-5">
+								<label for="vstiName">VSTi Name</label>
+								<input id="vstiName" type="text" class="form-control vName" placeholder="VSTi Name" value="" />
+							</div>
+							<div class="fieldData name col-2">
+								<label for="vstiVersion">Version</label>
+								<input id="vstiVersion" type="text" class="form-control vVersion" placeholder="Version" value="" />
+							</div>
+							<div class="fieldData col-2">
+								<label for="vstiFormat">Format</label>
+								<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" value="" />
+							</div>
+
+							<div class="fieldData ratingStars col-3">
+								<label class="col-12" for="editRating">Rating</label>
+								<span id="vstiRating" class="rating">
+								    <input type="radio" class="rating-input"
+								           id="rating-input-1-5" name="rating-input-1">
+								    <label for="rating-input-1-5" class="rating-star"></label>
+								    <input type="radio" class="rating-input"
+								           id="rating-input-1-4" name="rating-input-1">
+								    <label for="rating-input-1-4" class="rating-star"></label>
+								    <input type="radio" class="rating-input"
+								           id="rating-input-1-3" name="rating-input-1">
+								    <label for="rating-input-1-3" class="rating-star"></label>
+								    <input type="radio" class="rating-input"
+								           id="rating-input-1-2" name="rating-input-1">
+								    <label for="rating-input-1-2" class="rating-star"></label>
+								    <input type="radio" class="rating-input"
+								           id="rating-input-1-1" name="rating-input-1">
+								    <label for="rating-input-1-1" class="rating-star"></label>
+								</span>					
+							</div>
+					  </div>
+					  <div class="form-row justify-content-center">
+							<div class="col">&nbsp;</div>
+					  </div>
+					  <div class="form-row justify-content-center">				  	
+						<div class="fieldData col-6">
+							<label for="vstiDescription">Description:</label>
+							<input id="vstiDescription" 
+								   type="text" class="form-control fileformat" 
+								   placeholder="" 
+								   value="" />
+						</div>				  							
+						<div class="reviewField fieldData col-6">
+							<label for="vstiReview">Review:</label>
+							<textarea id="vstiReview" class="reviewData" maxlength="150" placeholder="This textarea has a character limit of 150.">	</textarea>
+						</div>
+					  </div>
+				  </div>
+				  <div class="modal-footer">
+					<button id="cancelVstiSubmit" type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+					<button id="vstiSubmit" type="submit" class="btn btn-primary" data-dismiss="modal">submit</button> ;
+				  </div>						
+				</form>
+				</div>
+			  </div>
+			</div>
+		<!-- End: Insert Form Modal -->
+	</main>
+</body>
+<script type="text/javascript">
+$( document ).ready(function() {
+	/* Setup up event listeners here */
+	/* Triggered when user clicks Cancel from the Add VSTi modal */
+	document.getElementById('addNewVstiBtn').addEventListener('click', popVSTiModal);			
+
+	/* Triggered when user clicks Cancel from the Add VSTi modal */
+	document.getElementById('cancelVstiSubmit').addEventListener('click', cancelSubmit);
+
+	/* When user clicks Submit from the Add VSTi modal: */
+	document.getElementById('vstiSubmit').addEventListener('click', submitNewVSTi);
+	/* Since there is now a new dataRow, the default hostile msg can be removed IF THERE IS DATA */	
+
+	document.getElementById('vstiSubmit').addEventListener('click', killMsg);				
+
+	document.getElementById('vstiSubmit').addEventListener('click', killMsg);								
+
+	/* Event trigger callback functions */
+	function killMsg() {
+		var noDataMsg = document.getElementById('defaultData');
+		/*doc has a dataRow and its ID isnt  vstiTemplateData */
+		var dataRowCheck = document.getElementsByClassName('dataRow').length;
+
+		console.log('Entering killMsg() = Does a check for elements with classname dataRow.');
+		console.log('    ' + dataRowCheck + ' ele(s) with classname of dataRow exist on this page.');
+		if (dataRowCheck < 2) {
+			noDataMsg.style.display = "block";
+			console.log('    There is \<\= 1 ele with classname of dataRow, there is no data to display, so SHOW the default warning msg.');				
+		} else {
+			noDataMsg.style.display = "none";
+			console.log('    Since there is > 1 ele with classname of dataRow, there is data to display, so HIDE the default warning msg.');					
+		}
+	}
+	killMsg();
+
+	function editThisVsti() {
+		/* FOR EDIT BUTTON USE: Provide common names for use in form field value manipulation */
+		/*				
+		var vstiName = document.getElementById('vstiName').value;
+		var vstiVersion = document.getElementById('vstiVersion').value;
+		var vstiDescription = document.getElementById('vstiDescription').value;
+		var vstiFormat = document.getElementById('vstiFormat').value;
+		var vstiRating = document.getElementById('vstiRating').value;
+		var vstiReview	= document.getElementById('vstiReview').value;
+		*/	
+	}
+
+	function popVSTiModal() {
+		console.log('Entering popVSTiModal() = User has clicked Add from the default msg row.');
 		/*
-			// Loop through Divs using Javascript.
-			var divs = document.querySelectorAll('div'), i;
+			console.log('    When modal is accessed from warning msg row, the default field values are: ' + '\n' + 
+			'      dObjID: ' + dObjID + '\n' + 
+			'      dVSTiName: ' + dVSTiName + '\n' + 
+			'      dVSTiVersion: ' + dVSTiVersion + '\n' + 
+			'      dVSTiDescription: ' + dVSTiDescription + '\n' + 
+			'      dVSTiFormat: ' + dVSTiFormat + '\n' + 
+			'      dVSTiReview: ' + dVSTiReview + '\n'
+			);
+		*/				
+	}
+	
 
-			for (i = 0; i < divs.length; ++i) {
-			  divs[i].style.color = "green";
-			}
+	function cancelSubmit() {
+		console.log('    Entering cancelSubmit() = User clicked cancel. Modal is closed. No dataRow is cloned until Submit.');
+	}
 
-			var $mySelection = $("#nosuchthing");
-			if ($mySelection.length) {
-				$mySelection.slideUp();
-			}			
-		*/
+	function submitNewVSTi() {
+		var vForm = document.getElementById('vstiEntry');
+		var dObjID = 'vsti-' + Math.floor(Math.random() * 900);	
 
+		console.log('The randomly generated ID that will get applied to the cloned dataRow \(aka dObjID\) is : ' + dObjID);	//prove the random generator is working	
 
-		// Begin: 	DocReady
-		$( document ).ready(function() {
-			/* Setup up event listeners here */
-				/* Triggered when user clicks Cancel from the Add VSTi modal */
-				document.getElementById('addNewVstiBtn').addEventListener('click', popVSTiModal);			
-			
-				/* Triggered when user clicks Cancel from the Add VSTi modal */
-				document.getElementById('cancelVstiSubmit').addEventListener('click', cancelSubmit);
+		var editBtn = 'editBtn' + dObjID.substr(4);
 
-				/* When user clicks Submit from the Add VSTi modal: */
-				document.getElementById('vstiSubmit').addEventListener('click', submitNewVSTi);
-				/* Since there is now a new dataRow, the default hostile msg can be removed IF THERE IS DATA */	
+		/* Provide common names for use in dataRow innerHTML (values) manipulation */	
+		var dVSTiName = document.getElementById('vstiName').value;
+		var dVSTiVersion = document.getElementById('vstiVersion').value;
+		var dVSTiDescription = document.getElementById('vstiDescription').value;
+		var dVSTiFormat = document.getElementById('vstiFormat').value;
+		var dVSTiRating = document.getElementById('vstiRating').value;
+		var dVSTiReview	= document.getElementById('vstiReview').value;
 
-				document.getElementById('vstiSubmit').addEventListener('click', killMsg);				
+		console.log('    Entering addNewVSTi() = Create a new cloned dataRow and apply the dynamic ID to the row.');
 
-				document.getElementById('vstiSubmit').addEventListener('click', killMsg);								
+		/* Create the prototype constructor object (NOT an Object itself) using dynamic values to build new objects from. */									
+		function Vsti(obj, btn, name, version, description, format, rating, review, vmethod) {
+			this.obj = dObjID;
+			this.btn = editBtn; 
+			this.name = name;
+			this.version = version;
+			this.description = description;
+			this.format = format;
+			this.rating = rating;
+			this.review = review;
+			this.vmethod = function() {
+				console.log( 'OK new VSTi object, why not introduce yourself? Go ahead and say a few words...');
+				console.error('     Uhhh-huhhh....um, yeah... OK, I don\'t' + ' really like talking about myself. Hi. My name is ' 
+					+ this.obj + ' and i have a button named ' 
+					+ this.btn 
+					+ ' and ummmm i like lime JELLO and safe rooms');				
+			};
+		}	
 
-				/* Event trigger callback functions */
-					function killMsg() {
-						var noDataMsg = document.getElementById('defaultData');
-						/*doc has a dataRow and its ID isnt  vstiTemplateData */
-						var dataRowCheck = document.getElementsByClassName('dataRow').length;
+		/********** Build the new object from the prototype */
+		var newObjID = new Vsti(dObjID, editBtn, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview);				
+		newObjID.vmethod();  // Run the new VSTIs function (method)
+		console.log('    Clone the dataRow (template) and generate a new dataRow with a dynamic ID.');
 
-						console.error('Entering killMsg() = Does a check for elements with classname dataRow.');
-						console.log('    ' + dataRowCheck + ' ele(s) with classname of dataRow exist on this page.');
-						if (dataRowCheck < 2) {
-							noDataMsg.style.display = "block";
-							console.log('    There is \<\= 1 ele with classname of dataRow, there is no data to display, so SHOW the default warning msg.');				
-						} else {
-							noDataMsg.style.display = "none";
-							console.log('    Since there is > 1 ele with classname of dataRow, there is data to display, so HIDE the default warning msg.');					
-						}
-					}
-					killMsg();
-
-					function editThisVsti() {
-
-					}
-
-					function popVSTiModal() {
-						console.error('Entering popVSTiModal() = User has clicked Add from the default msg row.');
-						/*
-							console.log('    When modal is accessed from warning msg row, the default field values are: ' + '\n' + 
-							'      dObjID: ' + dObjID + '\n' + 
-							'      dVSTiName: ' + dVSTiName + '\n' + 
-							'      dVSTiVersion: ' + dVSTiVersion + '\n' + 
-							'      dVSTiDescription: ' + dVSTiDescription + '\n' + 
-							'      dVSTiFormat: ' + dVSTiFormat + '\n' + 
-							'      dVSTiReview: ' + dVSTiReview + '\n'
-							);
-						*/				
-					}
+		/********** Clone the dataRow (template) w default values */
+		var sourceRow = document.getElementsByClassName('dataRow')[0]; // Grab the first dataRow in the document (hidden div) to use as HTML template 
+		var destination = document.getElementById('outputList'); // Set destination for the cloned div 
+		var cln = sourceRow.cloneNode(true); // Duplicate the sourceRows contents
+		destination.appendChild(cln); // and append the outputList div with the cloned template row 					
 					
+		var myNewRow = destination.lastChild; // After cloning row, get the latest dataRow from the page 
+		var myNewID = dObjID; // Grab the dynamic ID
+		myNewRow.setAttribute("id", myNewID); // Apply the dynamic ID to the dataRow
 
-					function cancelSubmit() {
-						console.error('Entering cancelSubmit() = User clicked cancel. Modal is closed. No dataRow is cloned until Submit.');
-					}
+		/********** Set form field values based on entries */
 
-					function submitNewVSTi() {
-						var vForm = document.getElementById('vstiEntry');
-						var dObjID = 'vsti-' + Math.floor(Math.random() * 900);	
-							/* 
-								obtain a dynamic, unique ID (using first four chars of the VSTi name, '-', and a random 0-99 suffix) 
-								for the constructor object that gets created by the forms Add VSTi event handler 
-							*/
-						console.log('The randomly generated ID that will get applied to the cloned dataRow \(aka dObjID\) is : ' + dObjID);	//prove the random generator is working	
+		/********** Create common names for referring to el IDs */
+		var newRowID 		= document.getElementById(myNewID);
+		var myNewBtn 		= newRowID.querySelector('.btn').setAttribute("id", editBtn);			
+		var newName 		= newRowID.querySelector('.dVSTiName');
+		var newVersion 		= newRowID.querySelector('.dVSTiVersion');
+		var newDescription	= newRowID.querySelector('.dVSTiDescription');
+		var newFormat 		= newRowID.querySelector('.dVSTiFormat');
+		var newRating 		= newRowID.querySelector('.dVSTiRating');
+		var newReview 		= newRowID.querySelector('.dVSTiReview');
 
-						/* Provide common names for use in dataRow innerHTML (values) manipulation */																	
-							var dVSTiName = document.getElementById('vstiName').value;
-							var dVSTiVersion = document.getElementById('vstiVersion').value;
-							var dVSTiDescription = document.getElementById('vstiDescription').value;
-							var dVSTiFormat = document.getElementById('vstiFormat').value;
-							var dVSTiRating = document.getElementById('vstiRating').value;
-							var dVSTiReview	= document.getElementById('vstiReview').value;								
-						/* Provide common names for use in form field value manipulation */
-							var vstiName = document.getElementById('vstiName').value;
-							var vstiVersion = document.getElementById('vstiVersion').value;
-							var vstiDescription = document.getElementById('vstiDescription').value;
-							var vstiFormat = document.getElementById('vstiFormat').value;
-							var vstiRating = document.getElementById('vstiRating').value;
-							var vstiReview	= document.getElementById('vstiReview').value;
+		/*********** LOCAL STORAGE STUFF */
+		localStorage.setItem(dObjID, JSON.stringify(newObjID));
 
-						console.error('Entering addNewVSTi() = Create a new cloned dataRow and apply the dynamic ID to the row.');
-
-						/* Create the prototype constructor object using dynamic values to build new objects from. */									
-						function Vsti(obj, name, version, description, format, rating, review, vmethod) {
-							this.obj = dObjID; 
-							this.name = name;
-							this.version = version;
-							this.description = description;
-							this.format = format;
-							this.rating = rating;
-							this.review = review;
-							this.vmethod = function() {
-								alert('My new VSTi is ALIVE and goes by the name: ' + '<strong>' +dObjID + '</strong>' + ' afterall...what good is an Object if it cant really do anything?')	
-							};
-						}
-						
-						console.log('    Clone the dataRow (template) and generate a new dataRow with a dynamic ID.');
-						/* Clone the dataRow (template) w default values */
-							var sourceRow = document.getElementsByClassName('dataRow')[0]; // Grab the first dataRow in the document (hidden div) to use as HTML template 
-							var destination = document.getElementById('outputList'); // Set destination for the cloned div 
-							var cln = sourceRow.cloneNode(true); // Duplicate the sourceRows contents
-							destination.appendChild(cln); // and append the outputList div with the cloned template row 					
-										
-							var myNewRow = destination.lastChild; // After cloning row, get the latest dataRow from the page 
-							var myNewID = dObjID; // Grab the dynamic ID
-							myNewRow.setAttribute("id", myNewID); // Apply the dynamic ID to the dataRow
-
-							var dVSTiMethod = document.getElementById(dObjID);
-
-							/* Build the new object from the prototype */
-
-							var newObjID = new Vsti(dObjID, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview, dVSTiMethod);
-
-						/* Set form field values based on entries */
-
-						/* Create common names for referring to el IDs */
-							var newRowID 		= document.getElementById(myNewID);
-							var newName 		= newRowID.querySelector('.dVSTiName');
-							var newVersion 		= newRowID.querySelector('.dVSTiVersion');
-							var newDescription	= newRowID.querySelector('.dVSTiDescription');
-							var newFormat 		= newRowID.querySelector('.dVSTiFormat');
-							var newRating 		= newRowID.querySelector('.dVSTiRating');
-							var newReview 		= newRowID.querySelector('.dVSTiReview');
+		console.log( localStorage.length);
 
 
-						/* Set the innerHTML of the prototype's dataRow 'values' */																												
-							newName.innerHTML=vstiName;
-							newVersion.innerHTML=vstiVersion;
-							newDescription.innerHTML=vstiDescription;
-							newFormat.innerHTML=vstiFormat;
-							newRating.innerHTML=vstiRating;
-							newReview.innerHTML=vstiReview;	
-
-							/* TESTING EVENT LISTENER IN A FUNC */
-																			
-							
-							console.log('    Here are the values I expect to see in the new dataRow: ' 
-								+ '\n' 
-								+ newObjID.name 
-								+ newObjID.version 
-								+ newObjID.vmethod
-							);
-
-							newObjID.vmethod();	
-
-																
-									
-						console.error('******* DO FIELD VALIDATION ********');
-					}
-
-					/* How can I use this globally in order to create event triggers? */
-/*							newObjID.vmethod();	*/
-		});
+for(var i =0; i < localStorage.length; i++){
+   console.log(localStorage.getItem(localStorage.key(i)));
+}
 
 
-		
-		// End: 	DocReady
-	</script>
+
+		/* This shows the entire localStorage entries
+		for (var i in localStorage) {
+			console.log(localStorage[i]);
+		}
+*/
+
+// iterate localStorage
+for (var i = 0; i < localStorage.length; i++) {
+
+  // set iteration key name
+  var key = localStorage.key(i);
+
+  // use key name to retrieve the corresponding value
+  var value = localStorage.getItem(key);
+
+  // console.log the iteration key and value
+  console.log('Key: ' + key + ', Value: ' + value);  
+
+}
+
+
+
+/*		for(var i = 0; i < localStorage.length; i++){
+		    console.log(localStorage.key(i));
+		}*/
+
+
+
+
+
+			/*
+			var retrievedVSTi = localStorage.getItem(dObjID.name);
+			alert( JSON.parse(retrievedVSTi)   );
+			*/
+			var vString = localStorage.getItem(newObjID);
+			var vObj = JSON.parse(vString);
+			console.log('whats this  ---->' + vObj);
+
+
+			/* Use the values from localStorage 
+				document.getElementById("test").innerHTML = localStorage.getItem("name1");
+
+			*/
+
+			/* 
+				Iterate through properties:
+				============================
+				for(var i=0; i < localStorage.length; i++){
+
+				    var propertyName = localStorage.key(i);
+
+				    console.log(  i + " : " + propertyName + " = " +
+				            localStorage.getItem(propertyName));
+				}
+
+				Storage Event Listener: https://stackoverflow.com/questions/40603019/how-do-we-find-the-various-properties-of-localstorage-in-html5
+				===========================
+				function onStorageEvent(storageEvent){
+
+				    alert("storage event");
+				}
+
+				window.addEventListener('storage', onStorageEvent, false);
+
+
+
+			 */
+
+			/* Using localStorage as a DB so VSTIs are avail when page reloads
+				Setting LS Values::
+				Using an -Existing- object and storing via localStorage:
+				window.localStorage.setItem('user', JSON.stringify(person));
+
+				Creating a -New- object and storing via localStorage:
+				localStorage.setItem('thisThing', JSON.stringify({'myKey':'myValue'}))
+				
+				Getting LS Values::
+				var retrievedObject = localStorage.getItem(obj);
+				console.log(obj, JSON.parse(obj))
+			*/	
+												
+					
+		console.log('******* DO FIELD VALIDATION ********');
+	}
+});// End: 	DocReady
+</script>
 </html>
-
-<!-- PACKING LIST:
-	star rating		- https://www.everythingfrontend.com/posts/star-rating-input-pure-css.html (honorable mentions: https://css-tricks.com/star-ratings/ 
-					  | https://www.cssscript.com/accessible-star-rating-system-pure-css/)
-	design reqs		- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details
-	audio demo		- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio
--->
