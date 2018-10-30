@@ -1,5 +1,46 @@
 $( document ).ready(function() {
 
+
+	/* Triggered when user clicks LOAD ALL PLUGINS */
+	document.getElementById('loadMyVstiList').addEventListener('click', loadPlugins);
+
+	/* Fetch all localStorage VSTi records. */
+	function loadPlugins() {
+		//JSON.stringify(localStorage); not needed, already done @ #151 below
+	
+	/*	console.log('hey ' + localStorage.key(5)); 
+		 ABOVE IS STATIC: (i) gets the first one or 5 will get the fifth one because its not looping.
+
+		for (var i=0, vCounter=localStorage.length; i<vCounter; ++i) { 
+		    var storageKey = localStorage.key(i);
+		    var 
+		    console.log( storageKey + ': ' + localStorage.getItem(storageKey) );
+		}	
+*/
+
+var counter = 0;
+o = localStorage;
+console.log('Here\'s the list: ')
+//console.log(Object.keys(o).toString()); // key1 value1
+
+for(var blowme in o) {
+  if(o.hasOwnProperty(blowme)) {
+    console.log(blowme); // Dont ask me why blowme still works. whats in a name?
+  }
+}
+
+		
+
+		// iterate localStorage
+		/*
+		for (var i = 0; i < localStorage.length; i++) {
+		  // set iteration key name
+		  var description = localStorage.key(i);
+		  console.log(i + " : " + description + " = " + localStorage.getItem(description)	);  
+		}
+		*/	
+
+	}
 	/* Setup up Event Listeners here */
 	/* Triggered when user clicks ADD NEW VSTI button from the main page. */
 	document.getElementById('addNewVstiBtn').addEventListener('click', popVSTiModal);			
@@ -34,17 +75,7 @@ $( document ).ready(function() {
 	killMsg();
 
 	function popVSTiModal() {
-		console.log('Entering popVSTiModal() = User has clicked Add from the default msg row.');
-		/*
-			console.log('    When modal is accessed from warning msg row, the default field values are: ' + '\n' + 
-			'      dObjID: ' + dObjID + '\n' + 
-			'      dVSTiName: ' + dVSTiName + '\n' + 
-			'      dVSTiVersion: ' + dVSTiVersion + '\n' + 
-			'      dVSTiDescription: ' + dVSTiDescription + '\n' + 
-			'      dVSTiFormat: ' + dVSTiFormat + '\n' + 
-			'      dVSTiReview: ' + dVSTiReview + '\n'
-			);
-		*/				
+		console.log('    Entering popVSTiModal() = User has clicked Add from the default msg row.');				
 	}
 	
 
@@ -81,17 +112,17 @@ $( document ).ready(function() {
 			this.rating = rating;
 			this.review = review;
 			this.vmethod = function() {
-				console.log( 'OK new VSTi object, why not introduce yourself? Go ahead and say a few words...');
-				console.error('     Uhhh-huhhh....um, yeah... OK, I don\'t' + ' really like talking about myself. Hi. My name is ' 
+				console.log( 'HELLO new VSTi Object, why not introduce yourself? Go ahead and say a few words...' + '\n');
+				console.log('     Uhhh-huhhh....um, yeah... OK, I don\'t' + ' really like talking about myself. Hi. My name is ' 
 					+ this.obj + ' and i have a button named ' 
 					+ this.btn 
-					+ ' and ummmm i like lime JELLO and safe rooms');			
+					+ ' and ummmm i like Lime JELLO and safe rooms');			
 			};
 		}	
 
 		/********** Build the new object from the prototype */
-		var newObjID = new Vsti(dObjID, editBtn, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview);				
-		newObjID.vmethod();  // Run the new VSTIs function (method)
+		var dynamicVSTiObject = new Vsti(dObjID, editBtn, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview);				
+		dynamicVSTiObject.vmethod();  // Run the new VSTIs function (method)
 
 		console.log('    Clone the dataRow (template) and generate a new dataRow with a dynamic ID.');
 
@@ -105,7 +136,6 @@ $( document ).ready(function() {
 		var myNewID = dObjID; // Grab the dynamic ID
 		myNewRow.setAttribute("id", myNewID); // Apply the dynamic ID to the dataRow
 
-		console.log( '    dataRow successfully cloned. There are now ' + localStorage.length + ' items in localStorage');
 		/********** Set form field values based on entries */
 
 		/********** Create common names for referring to el IDs */
@@ -120,45 +150,45 @@ $( document ).ready(function() {
 
 		/* Set event listener on the new button */
 		var clickThisBtn = document.getElementById(editBtn);
-		clickThisBtn.addEventListener("click", editThisVsti);		
-
-		/*********** LOCAL STORAGE STUFF */
-		/* https://www.sitepoint.com/community/t/localstorage-cannot-get-storage-event-to-fire/7640/2 */
-		/*
-			window.dispatchEvent( new Event('storage') );
-			window.addEventListener('storage', function (e) {
-		   	console.log("*************************************************************************:     storage event occured");
-		});
-		*/
-
-
-		/*Set localStorage from the new prototype object */
-		localStorage.setItem(dObjID, JSON.stringify(newObjID));
-
-		console.error('    BEGIN WORKING W THE localStorage object...');
+		clickThisBtn.addEventListener("click", editThisVsti);
 
 		function buildTheRow() {
-			console.log('    ENTERING buildTheRow func ... the damn thing is ' + newObjID.name);
-			newName.innerHTML = newObjID.name;
-			newVersion.innerHTML = newObjID.version;
-			newDescription.innerHTML = newObjID.description;
-			newFormat.innerHTML = newObjID.format;
-			newRating = newObjID.rating;
-			newReview = newObjID.review;
-			console.log('Putting it all together now :' + '\n' + 
-				'name: ' + newObjID.name + '\n' + 
-				'version: ' + newObjID.version + '\n' +
-				'description: ' + newObjID.description + '\n' +
-				'format: ' + newObjID.format + '\n' +
-				'rating: ' + newObjID.rating + '\n' +
-				'review: ' + newObjID.review
-			);
+			console.log('    ENTERING buildTheRow func ...');
+
+			/*Set localStorage from the new prototype object */
+			localStorage.setItem(dObjID, JSON.stringify(dynamicVSTiObject)); // 1) Set the storage objects name using prev generated dynamic ID 2) STRINGIFY IT so you can use it.
+
+			/* Confused. Thought this was needed. Followup.
+				var vstiList = JSON.parse(localStorage.getItem(dynamicVSTiObject)); // Get the localStorage object so we can mess with it.
+			*/
+
+			var pluginName = dynamicVSTiObject["name"];
+			var pluginVersion = dynamicVSTiObject["version"];
+			var pluginFormat = dynamicVSTiObject["format"];		
+			var pluginDescription = dynamicVSTiObject["description"];
+			var pluginReview = dynamicVSTiObject["review"];
+
+			console.error('******************** Prove that it got inserted into localStorage. The item added includes: ' + 
+				'\n' + pluginName +
+				'\n' + pluginVersion +
+				'\n' + pluginFormat +
+				'\n' + pluginDescription +
+				'\n' + pluginReview
+			);	
+
+			newName.innerHTML = dynamicVSTiObject.name;
+			newVersion.innerHTML = dynamicVSTiObject.version;
+			newDescription.innerHTML = dynamicVSTiObject.description;
+			newFormat.innerHTML = dynamicVSTiObject.format;
+			newRating = dynamicVSTiObject.rating;
+			newReview = dynamicVSTiObject.review;
+
 		}	
 		buildTheRow();
 
 		function editThisVsti() {
 			alert(	'The btn ID ' + editBtn + ' was clicked.' 	);				
-			console.log('    WELL LORDY LORDY lookie who be learning real quick like: ' + newObjID.name);		
+			console.log('    Now entering editThisVsti(): ' + dynamicVSTiObject.name);		
 			/* FOR EDIT BUTTON USE: Provide common names for use in form field value manipulation */
 							
 			var vstiName = document.getElementById('vstiName').value;
@@ -168,36 +198,26 @@ $( document ).ready(function() {
 			var vstiRating = document.getElementById('vstiRating').value;
 			var vstiReview	= document.getElementById('vstiReview').value;
 			
-			vstiName = newObjID.name;
-			vstiVersion = newObjID.version;
-			vstiDescription = newObjID.description;
-			vstiFormat = newObjID.format;
-			vstiRating = newObjID.rating;
-			vstiReview	= newObjID.review;
+			vstiName = dynamicVSTiObject.name;
+			vstiVersion = dynamicVSTiObject.version;
+			vstiDescription = dynamicVSTiObject.description;
+			vstiFormat = dynamicVSTiObject.format;
+			vstiRating = dynamicVSTiObject.rating;
+			vstiReview	= dynamicVSTiObject.review;
 
-/*			vstiName = newObjID.name;
-			vstiVersion = newObjID.version;
-			vstiDescription = newObjID.description;
-			vstiFormat = newObjID.format;
-			vstiRating = newObjID.rating;
-			vstiReview	= newObjID.review;*/		
+			/*			
+			vstiName = dynamicVSTiObject.name;
+			vstiVersion = dynamicVSTiObject.version;
+			vstiDescription = dynamicVSTiObject.description;
+			vstiFormat = dynamicVSTiObject.format;
+			vstiRating = dynamicVSTiObject.rating;
+			vstiReview	= dynamicVSTiObject.review;
+			*/		
 		}
+	
 	}
 
-	function allStorage() {
-		alert('is this thing on?');
 
-		var values = newObjID,
-		keys = Object.keys(localStorage),
-		i = keys.length;
-
-		while ( i-- ) {
-		values.push( localStorage.getItem(keys[i]) );
-		}
-
-		alert( values );
-	}
-	allStorage();
 
 });// End: 	DocReady
 
@@ -205,6 +225,42 @@ $( document ).ready(function() {
 
 /*
  LOCAL STORAGE NOTES: =======================================================================
+
+var test = { test: "thing", test2: "thing2", test3: [0, 2, 44] }​​​​​​​; // Create the storage array object
+localStorage.setItem("test", JSON.stringify(test)); //Set it and stringify it
+var test2 = localStorage.getItem("test"); // fetch the property/ies you need
+console.log(test2); // Test your work - logs "{"test":"thing","test2":"thing2","test3":[0,2,44]}"
+
+
+this works:
+var theList = Storage;
+console.log(theList.hasOwnProperty("name")); //returns true 
+
+var theList = Storage;
+console.log("name" in theList); // test for existence of name property (boolean test)
+console.log(theList.name); // reveal the stored object's name.
+console.log(Object.values(theList));
+
+var temp = JSON.parse(localStorage.getItem('vsti-106'));
+console.log(temp.name);
+console.log(temp.obj);
+console.log(Object.keys(temp));
+
+var temp = JSON.parse(localStorage.getItem(	localStorage.key(3)	));
+console.log(temp.name);
+console.log(temp.obj);
+console.log(Object.keys(temp));
+
+
+
+
+Helpful Resources that Explain This Stuff: =======================================================================
+-http://adripofjavascript.com/blog/drips/the-uses-of-in-vs-hasownproperty.html
+-https://stackoverflow.com/questions/40603019/how-do-we-find-the-various-properties-of-localstorage-in-html5
+
+
+
+
 	// show key/value pairs as an object:
 	for(var i =0; i < localStorage.length; i++){
 	   console.log(	localStorage.getItem(localStorage.key(i)	)	);
