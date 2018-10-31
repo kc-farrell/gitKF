@@ -18,7 +18,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<!-- Above uses Google CDN for jQuery. But LOCAL VERSION of jQuery 331 is also available as: <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script> -->
 	<!-- CDN for Bootstrap 4 avail? -->
-	<script src="js/bootstrap.min.js"></script>			
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/myVSTiStuff.js"></script><!--Moved JS stuff to separate file -->
 </head>
 <body class="container"><!-- optionally, use container-fluid for full viewport display -->
 	<main>
@@ -114,8 +115,12 @@
 				<!-- Begin: Default Data Row -->
 				<div id="defaultData" class="row text-center">
 					<div class="col-12">
-						WHAT IS WRONG WITH YOU PEOPLE? WHAT DON'T YOU UNDERSTAND?
-						<br />THERE IS NO DATA TO DISPLAY! GO AHEAD AND CLICK THE GD BUTTON ALREADY, SO I DON'T HAVE TO!
+						... ... ... .. ... .. ... .. . .. 
+						<br />... ... ... .. ... .. ... .. . ..
+						<br />... ... ... .. ... .. ... .. . ..
+						<button id="loadMyVstiList" type="button" class="btn btn-default Edit">
+							Load All Plugins
+						</button>
 					</div>
 				</div>
 				<div id="vstiInsertTemplate" class="dataRow row">
@@ -126,7 +131,7 @@
 							data-toggle="modal" 
 							data-target="#VSTiInsertModal">
 							edit
-						</button>
+						</button>loadMyVstiList
 					</div>						
 					<div class="col-3 fieldData">
 						<span class="dVSTiName"></span> 
@@ -249,232 +254,5 @@
 		<!-- End: Insert Form Modal -->
 	</main>
 </body>
-<script type="text/javascript">
-$( document ).ready(function() {
-	/* Setup up event listeners here */
-	/* Triggered when user clicks Cancel from the Add VSTi modal */
-	document.getElementById('addNewVstiBtn').addEventListener('click', popVSTiModal);			
-
-	/* Triggered when user clicks Cancel from the Add VSTi modal */
-	document.getElementById('cancelVstiSubmit').addEventListener('click', cancelSubmit);
-
-	/* When user clicks Submit from the Add VSTi modal: */
-	document.getElementById('vstiSubmit').addEventListener('click', submitNewVSTi);
-	/* Since there is now a new dataRow, the default hostile msg can be removed IF THERE IS DATA */	
-
-	document.getElementById('vstiSubmit').addEventListener('click', killMsg);				
-
-	document.getElementById('vstiSubmit').addEventListener('click', killMsg);								
-
-	/* Event trigger callback functions */
-	function killMsg() {
-		var noDataMsg = document.getElementById('defaultData');
-		/*doc has a dataRow and its ID isnt  vstiTemplateData */
-		var dataRowCheck = document.getElementsByClassName('dataRow').length;
-
-		console.log('Entering killMsg() = Does a check for elements with classname dataRow.');
-		console.log('    ' + dataRowCheck + ' ele(s) with classname of dataRow exist on this page.');
-		if (dataRowCheck < 2) {
-			noDataMsg.style.display = "block";
-			console.log('    There is \<\= 1 ele with classname of dataRow, there is no data to display, so SHOW the default warning msg.');				
-		} else {
-			noDataMsg.style.display = "none";
-			console.log('    Since there is > 1 ele with classname of dataRow, there is data to display, so HIDE the default warning msg.');					
-		}
-	}
-	killMsg();
-
-	function editThisVsti() {
-		/* FOR EDIT BUTTON USE: Provide common names for use in form field value manipulation */
-		/*				
-		var vstiName = document.getElementById('vstiName').value;
-		var vstiVersion = document.getElementById('vstiVersion').value;
-		var vstiDescription = document.getElementById('vstiDescription').value;
-		var vstiFormat = document.getElementById('vstiFormat').value;
-		var vstiRating = document.getElementById('vstiRating').value;
-		var vstiReview	= document.getElementById('vstiReview').value;
-		*/	
-	}
-
-	function popVSTiModal() {
-		console.log('Entering popVSTiModal() = User has clicked Add from the default msg row.');
-		/*
-			console.log('    When modal is accessed from warning msg row, the default field values are: ' + '\n' + 
-			'      dObjID: ' + dObjID + '\n' + 
-			'      dVSTiName: ' + dVSTiName + '\n' + 
-			'      dVSTiVersion: ' + dVSTiVersion + '\n' + 
-			'      dVSTiDescription: ' + dVSTiDescription + '\n' + 
-			'      dVSTiFormat: ' + dVSTiFormat + '\n' + 
-			'      dVSTiReview: ' + dVSTiReview + '\n'
-			);
-		*/				
-	}
-	
-
-	function cancelSubmit() {
-		console.log('    Entering cancelSubmit() = User clicked cancel. Modal is closed. No dataRow is cloned until Submit.');
-	}
-
-	function submitNewVSTi() {
-		var vForm = document.getElementById('vstiEntry');
-		var dObjID = 'vsti-' + Math.floor(Math.random() * 900);	
-
-		console.log('The randomly generated ID that will get applied to the cloned dataRow \(aka dObjID\) is : ' + dObjID);	//prove the random generator is working	
-
-		var editBtn = 'editBtn' + dObjID.substr(4);
-
-		/* Provide common names for use in dataRow innerHTML (values) manipulation */	
-		var dVSTiName = document.getElementById('vstiName').value;
-		var dVSTiVersion = document.getElementById('vstiVersion').value;
-		var dVSTiDescription = document.getElementById('vstiDescription').value;
-		var dVSTiFormat = document.getElementById('vstiFormat').value;
-		var dVSTiRating = document.getElementById('vstiRating').value;
-		var dVSTiReview	= document.getElementById('vstiReview').value;
-
-		console.log('    Entering addNewVSTi() = Create a new cloned dataRow and apply the dynamic ID to the row.');
-
-		/* Create the prototype constructor object (NOT an Object itself) using dynamic values to build new objects from. */									
-		function Vsti(obj, btn, name, version, description, format, rating, review, vmethod) {
-			this.obj = dObjID;
-			this.btn = editBtn; 
-			this.name = name;
-			this.version = version;
-			this.description = description;
-			this.format = format;
-			this.rating = rating;
-			this.review = review;
-			this.vmethod = function() {
-				console.log( 'OK new VSTi object, why not introduce yourself? Go ahead and say a few words...');
-				console.error('     Uhhh-huhhh....um, yeah... OK, I don\'t' + ' really like talking about myself. Hi. My name is ' 
-					+ this.obj + ' and i have a button named ' 
-					+ this.btn 
-					+ ' and ummmm i like lime JELLO and safe rooms');				
-			};
-		}	
-
-		/********** Build the new object from the prototype */
-		var newObjID = new Vsti(dObjID, editBtn, dVSTiName, dVSTiVersion, dVSTiDescription, dVSTiFormat, dVSTiRating, dVSTiReview);				
-		newObjID.vmethod();  // Run the new VSTIs function (method)
-		console.log('    Clone the dataRow (template) and generate a new dataRow with a dynamic ID.');
-
-		/********** Clone the dataRow (template) w default values */
-		var sourceRow = document.getElementsByClassName('dataRow')[0]; // Grab the first dataRow in the document (hidden div) to use as HTML template 
-		var destination = document.getElementById('outputList'); // Set destination for the cloned div 
-		var cln = sourceRow.cloneNode(true); // Duplicate the sourceRows contents
-		destination.appendChild(cln); // and append the outputList div with the cloned template row 					
-					
-		var myNewRow = destination.lastChild; // After cloning row, get the latest dataRow from the page 
-		var myNewID = dObjID; // Grab the dynamic ID
-		myNewRow.setAttribute("id", myNewID); // Apply the dynamic ID to the dataRow
-
-		/********** Set form field values based on entries */
-
-		/********** Create common names for referring to el IDs */
-		var newRowID 		= document.getElementById(myNewID);
-		var myNewBtn 		= newRowID.querySelector('.btn').setAttribute("id", editBtn);			
-		var newName 		= newRowID.querySelector('.dVSTiName');
-		var newVersion 		= newRowID.querySelector('.dVSTiVersion');
-		var newDescription	= newRowID.querySelector('.dVSTiDescription');
-		var newFormat 		= newRowID.querySelector('.dVSTiFormat');
-		var newRating 		= newRowID.querySelector('.dVSTiRating');
-		var newReview 		= newRowID.querySelector('.dVSTiReview');
-
-		/*********** LOCAL STORAGE STUFF */
-		localStorage.setItem(dObjID, JSON.stringify(newObjID));
-
-		console.log( localStorage.length);
-
-
-for(var i =0; i < localStorage.length; i++){
-   console.log(localStorage.getItem(localStorage.key(i)));
-}
-
-
-
-		/* This shows the entire localStorage entries
-		for (var i in localStorage) {
-			console.log(localStorage[i]);
-		}
-*/
-
-// iterate localStorage
-for (var i = 0; i < localStorage.length; i++) {
-
-  // set iteration key name
-  var key = localStorage.key(i);
-
-  // use key name to retrieve the corresponding value
-  var value = localStorage.getItem(key);
-
-  // console.log the iteration key and value
-  console.log('Key: ' + key + ', Value: ' + value);  
-
-}
-
-
-
-/*		for(var i = 0; i < localStorage.length; i++){
-		    console.log(localStorage.key(i));
-		}*/
-
-
-
-
-
-			/*
-			var retrievedVSTi = localStorage.getItem(dObjID.name);
-			alert( JSON.parse(retrievedVSTi)   );
-			*/
-			var vString = localStorage.getItem(newObjID);
-			var vObj = JSON.parse(vString);
-			console.log('whats this  ---->' + vObj);
-
-
-			/* Use the values from localStorage 
-				document.getElementById("test").innerHTML = localStorage.getItem("name1");
-
-			*/
-
-			/* 
-				Iterate through properties:
-				============================
-				for(var i=0; i < localStorage.length; i++){
-
-				    var propertyName = localStorage.key(i);
-
-				    console.log(  i + " : " + propertyName + " = " +
-				            localStorage.getItem(propertyName));
-				}
-
-				Storage Event Listener: https://stackoverflow.com/questions/40603019/how-do-we-find-the-various-properties-of-localstorage-in-html5
-				===========================
-				function onStorageEvent(storageEvent){
-
-				    alert("storage event");
-				}
-
-				window.addEventListener('storage', onStorageEvent, false);
-
-
-
-			 */
-
-			/* Using localStorage as a DB so VSTIs are avail when page reloads
-				Setting LS Values::
-				Using an -Existing- object and storing via localStorage:
-				window.localStorage.setItem('user', JSON.stringify(person));
-
-				Creating a -New- object and storing via localStorage:
-				localStorage.setItem('thisThing', JSON.stringify({'myKey':'myValue'}))
-				
-				Getting LS Values::
-				var retrievedObject = localStorage.getItem(obj);
-				console.log(obj, JSON.parse(obj))
-			*/	
-												
-					
-		console.log('******* DO FIELD VALIDATION ********');
-	}
-});// End: 	DocReady
-</script>
+<script type="text/javascript"></script>
 </html>
