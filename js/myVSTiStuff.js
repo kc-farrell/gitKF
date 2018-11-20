@@ -15,25 +15,137 @@ $( document ).ready(function() {
 		var dParsed = JSON.parse(o[keyIndex]).description;
 		var stuff = 'stuff';
 
-		console.table(o);
+		//console.table(o);
 
-		console.log('vsti Name: ' + keyIndex + '\n' + 'Description: ' + dParsed); // Testing - just gets first item, outside the forin loop.			
+		// console.log('    >>>>> TESTING: - just gets first objects name and descr, outside the forin loop.' +'\n' + 'vsti Name: ' + keyIndex + '\n' + 'Description: ' + dParsed); // Testing - just gets first item, outside the forin loop.			
 
+		console.log('>>>>> loadPlugins() For In Loop -- For every object, IF... the object has custom properties fetch them ... output as console log');
 		for (var key in o) {
-		  if (o.hasOwnProperty(key)) {
-		  	var sand = JSON.parse(o[key])["name"] + JSON.parse(o[key])["description"];
-			console.log('<div id=" + JSON.parse(o[key])['obj'] + ">' +
-				'\n' + 'vsti Name: ' + JSON.parse(o[key])["name"] + 
-				'\n' + 'Description: ' + JSON.parse(o[key])["description"] + 
-				'\n' + 'Version: ' + JSON.parse(o[key])["version"] +
-				'\n' + 'Rating: ' + JSON.parse(o[key])["rating"] + 
-				'\n' + 'Review: ' + JSON.parse(o[key])["review"] );							
-			document.getElementById('sandbox').append(sand);
-			// Displays Properties, values for consumption by another function
-		  }
-		  else {
-		   console.log('ELSE ' + key); // these are from __prototype__
-		 }
+			if (o.hasOwnProperty(key)) {
+				console.log('    >>>>> VSTi Plugin: ' + 
+					'\n' + 'obj ID: ' + JSON.parse(o[key])['obj'] + 
+					'\n' + 'btn ID: ' + JSON.parse(o[key])['btn'] +
+					'\n' + 'plugin Name: ' + JSON.parse(o[key])["name"] + 
+					'\n' + 'Description: ' + JSON.parse(o[key])["description"] + 
+					'\n' + 'Version: ' + JSON.parse(o[key])["version"] +
+					'\n' + 'Rating: ' + JSON.parse(o[key])["rating"] + 
+					'\n' + 'Review: ' + JSON.parse(o[key])["review"] 
+				);	
+
+				var lsId = JSON.parse(o[key])['obj'];
+				var lsBtn = JSON.parse(o[key])['btn'];
+				var lsName = JSON.parse(o[key])['name']; 
+				var lsDescr = JSON.parse(o[key])['description']; 
+				var lsFormat = JSON.parse(o[key])['format']; 
+				var lsVersion = JSON.parse(o[key])['version'];
+				var lsRating = JSON.parse(o[key])['rating']; 
+				var lsReview = JSON.parse(o[key])['review'];
+				// TODO: write them to the template divs here.
+
+				function ddRow() {
+					console.log('    ENTERING ddRow func ...');
+
+					console.log('    Clone the dataRow (template) and generate a new dataRow with a dynamic ID.');
+
+					/********** Clone the dataRow (template) w default values */
+					var sourceRow 	= document.getElementsByClassName('dataRow')[0]; // Grab the first dataRow in the document (hidden div) to use as HTML template 
+					var destination = document.getElementById('sandbox'); // Set destination for the cloned div 
+					var cln 		= sourceRow.cloneNode(true); // Duplicate the sourceRows contents
+					destination.appendChild(cln); // and append the outputList div with the cloned template row 					
+								
+					var myNewRow 	= destination.lastChild; // After cloning row, get the latest dataRow from the page 
+					var myNewObjID 	= dObjID; // Grab the dynamic ID
+					myNewRow.setAttribute("id", myNewObjID); // Apply the dynamic ID to the cloned dataRow (e.g. "destination").
+
+					/********** Set form field values based on entries */
+
+					/********** Create common names for referring to el Ids and Classes */
+					var newRowID 		= document.getElementById(myNewObjID); // use newRowID to setup references to later drop values into.
+					var newRowHTML		= newRowID.innerHTML;
+					var myNewBtn 		= newRowID.querySelector('.btn').setAttribute("id", editBtn); // use newRowId to target classname based on the row's ID.	
+					var newName 		= newRowID.querySelector('.dVSTiName'); // use newRowId to target classname based on the row's ID.
+					var newVersion 		= newRowID.querySelector('.dVSTiVersion'); // use newRowId to target classname based on the row's ID.
+					var newDescription	= newRowID.querySelector('.dVSTiDescription'); // use newRowId to target classname based on the row's ID.
+					var newFormat 		= newRowID.querySelector('.dVSTiFormat'); // use newRowId to target classname based on the row's ID.
+					var newRating 		= newRowID.querySelector('.dVSTiRating'); // use newRowId to target classname based on the row's ID.
+					var newReview 		= newRowID.querySelector('.dVSTiReview'); // use newRowId to target classname based on the row's ID.
+
+					/* Set event listener on the new button */
+					var clickThisBtn = document.getElementById(editBtn);
+					clickThisBtn.addEventListener("click", editThisVsti);
+
+					var pluginHTML			= newRowID.innerHTML;
+
+					/* Output new data to the outputlist div */
+					newName.innerHTML 			= dynamicVSTiObject.name;
+					newVersion.innerHTML 		= dynamicVSTiObject.version;
+					newDescription.innerHTML 	= dynamicVSTiObject.description;
+					newFormat.innerHTML 		= dynamicVSTiObject.format;
+					newRating.innerHTML 		= dynamicVSTiObject.rating;
+					newReview.innerHTML 		= dynamicVSTiObject.review;
+
+				localStorage.setItem(dObjID, JSON.stringify(dynamicVSTiObject)); 
+				/* Set localStorage from the new prototype object created above (dynamicVSTiObject); stringify it, so you can use it to retrieve key/property values. */			
+
+					console.log('the HTML survey says : ' + pluginHTML);
+				}
+
+				function buildRecord() {
+				//	var consoleSand = 'plugin name: ' + JSON.parse(o[key])["name"] + '\n' + 'description: ' + JSON.parse(o[key])["description"] + '\n';
+				//  	console.log('    >>>>> TESTING: the VAR consoleSand result uses a JS line break ' + '\n' + consoleSand + '\n' + 'the VAR sand is using a br tag to generate innerHTML because its writing HTML not interpreting Javascript at that point');	// note use of JS linebreak not br tag	
+				  			
+				  	var sand = '<span>' + JSON.parse(o[key])["name"] + '</span>' + '<br />' + '<span>' + JSON.parse(o[key])["description"] + '</span>' +'<br /><br />';	
+
+				  	let htmlBlob = `
+						<div id="${lsId}" class="dataRow row">
+							<div class="col-1 fieldData text-center">
+								<button 
+									id="${lsBtn}"
+									type="button" 
+									class="btn btn-default Edit" 
+									data-toggle="modal" 
+									data-target="#VSTiInsertModal">
+									edit
+								</button>
+							</div>						
+							<div class="col-3 fieldData">
+								<span class="dVSTiName">${lsName}</span> 
+								<span class="dVSTiVersion" class="version">${lsVersion}</span>
+							</div>
+							<div class="col-3 fieldData">
+								<span class="dVSTiDescription">${lsDescr}</span>
+							</div>
+							<div class="col-1 fieldData text-center dVSTiFormat">
+								${lsFormat}
+							</div>
+							<div class="col-4 fieldData">
+								<span class="dVSTiRating">${lsRating}</span>
+								<span class="dVSTiReview">${lsReview}</span>							
+								<div class="vDemo col">
+								<!--								
+									<audio controls>
+										<source src="myAudio.mp3" type="audio/mp3">
+										<source src="myAudio.ogg" type="audio/ogg">
+									</audio>
+								-->
+								</div>
+							</div>
+						</div>
+				  	`;
+
+					document.getElementById('outputList').insertAdjacentHTML('beforeend', htmlBlob);
+
+					function buildRecordForInLoopMethod() {
+						console.log('  >>>>> Demonstrate Calling a functions method -- loadPlugins() ForInLoop Method to fetch and display the name of the (first) VSTi plugin: ' + JSON.parse(o[key])["name"]);
+					}
+					// buildRecordForInLoopMethod();
+				}
+				buildRecord();					
+			}
+			else {
+				// console.log('    >>>>> TESTING: ELSE... this property is inherited from localStorage __prototype__ ' + key); // these are from __prototype__
+			}
+
 		}
 	}
 
@@ -156,16 +268,16 @@ $( document ).ready(function() {
 			clickThisBtn.addEventListener("click", editThisVsti);
 
 			var pluginHTML			= newRowID.innerHTML;
-/*
-			console.log('******************** Prove localStorage insert worked. The item added to this lSo includes these values: ' + 
-				'\n' + pluginName +
-				'\n' + pluginVersion +
-				'\n' + pluginFormat +
-				'\n' + pluginDescription + 
-				'\n' + pluginRating +				
-				'\n' + pluginReview
-			);	
-*/
+			/*
+				console.log('******************** Prove localStorage insert worked. The item added to this lSo includes these values: ' + 
+					'\n' + pluginName +
+					'\n' + pluginVersion +
+					'\n' + pluginFormat +
+					'\n' + pluginDescription + 
+					'\n' + pluginRating +				
+					'\n' + pluginReview
+				);	
+			*/
 			/* Output new data to the outputlist div */
 			newName.innerHTML 			= dynamicVSTiObject.name;
 			newVersion.innerHTML 		= dynamicVSTiObject.version;
