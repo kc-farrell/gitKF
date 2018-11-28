@@ -1,27 +1,17 @@
 $( document ).ready(function() {
 
 
-	/* Triggered when user clicks LOAD ALL PLUGINS */
-	document.getElementById('loadMyVstiList').addEventListener('click', loadPlugins);
-
 	/* Fetch all localStorage VSTi records. */
 	function loadPlugins() {
-		//JSON.stringify(localStorage); not needed, already done @ #151 below
-
-		/* Set VARS */
 		var o = localStorage;
 		var i = 0;
 		var keyIndex = Object.keys(o)[i];
 		var dParsed = JSON.parse(o[keyIndex]).description;
-		var stuff = 'stuff';
-
-		//console.table(o);
-
-		// console.log('    >>>>> TESTING: - just gets first objects name and descr, outside the forin loop.' +'\n' + 'vsti Name: ' + keyIndex + '\n' + 'Description: ' + dParsed); // Testing - just gets first item, outside the forin loop.			
 
 		console.log('>>>>> loadPlugins() For In Loop -- For every object, IF... the object has custom properties fetch them ... output as console log');
 		for (var key in o) {
 			if (o.hasOwnProperty(key)) {
+
 				console.log('    >>>>> VSTi Plugin: ' + 
 					'\n' + 'obj ID: ' + JSON.parse(o[key])['obj'] + 
 					'\n' + 'btn ID: ' + JSON.parse(o[key])['btn'] +
@@ -85,15 +75,11 @@ $( document ).ready(function() {
 					newReview.innerHTML 		= dynamicVSTiObject.review;
 
 				localStorage.setItem(dObjID, JSON.stringify(dynamicVSTiObject)); 
-				/* Set localStorage from the new prototype object created above (dynamicVSTiObject); stringify it, so you can use it to retrieve key/property values. */			
-
+				/* Set localStorage from the new prototype object created above (dynamicVSTiObject); stringify it, so you can use it to retrieve key/property values. */
 					console.log('the HTML survey says : ' + pluginHTML);
 				}
 
-				function buildRecord() {
-				//	var consoleSand = 'plugin name: ' + JSON.parse(o[key])["name"] + '\n' + 'description: ' + JSON.parse(o[key])["description"] + '\n';
-				//  	console.log('    >>>>> TESTING: the VAR consoleSand result uses a JS line break ' + '\n' + consoleSand + '\n' + 'the VAR sand is using a br tag to generate innerHTML because its writing HTML not interpreting Javascript at that point');	// note use of JS linebreak not br tag	
-				  			
+				function buildDataRows() {
 				  	var sand = '<span>' + JSON.parse(o[key])["name"] + '</span>' + '<br />' + '<span>' + JSON.parse(o[key])["description"] + '</span>' +'<br /><br />';	
 
 				  	let htmlBlob = `
@@ -104,7 +90,7 @@ $( document ).ready(function() {
 									type="button" 
 									class="btn btn-default Edit" 
 									data-toggle="modal" 
-									data-target="#VSTiInsertModal">
+									data-target="#VSTiInsertModal" onclick="">
 									edit
 								</button>
 							</div>						
@@ -134,22 +120,38 @@ $( document ).ready(function() {
 				  	`;
 
 					document.getElementById('outputList').insertAdjacentHTML('beforeend', htmlBlob);
-
-					function buildRecordForInLoopMethod() {
-						console.log('  >>>>> Demonstrate Calling a functions method -- loadPlugins() ForInLoop Method to fetch and display the name of the (first) VSTi plugin: ' + JSON.parse(o[key])["name"]);
-					}
-					// buildRecordForInLoopMethod();
+					document.getElementById(lsBtn).addEventListener('click', popVSTiModal);	
+					document.getElementById(lsBtn).addEventListener('click', editThisVsti);
 				}
-				buildRecord();					
+				buildDataRows();
+
 			}
 			else {
 				// console.log('    >>>>> TESTING: ELSE... this property is inherited from localStorage __prototype__ ' + key); // these are from __prototype__
 			}
-
-		}
+		}	
 	}
 
+	function editThisVsti() { 
+		var o = localStorage;
+		var clickedBtn = event.srcElement.id; // what got clicked w out knowing its ID or how many etc - dynamic
+		var selectedRow = document.getElementById(clickedBtn).parentNode.parentNode.id;
+		var record = localStorage.getItem(selectedRow);	
+
+		var whatever = JSON.stringify(selectedRow);
+		alert('the record contents are: ' +whatever);	
+		/*
+			vstiName.value = lsName;
+		*/
+	}
+	
+
+
+
 	/* Setup up Event Listeners here */
+	/* Triggered when user clicks LOAD ALL PLUGINS */
+	document.getElementById('loadMyVstiList').addEventListener('click', loadPlugins);
+
 	/* Triggered when user clicks ADD NEW VSTI button from the main page. */
 	document.getElementById('addNewVstiBtn').addEventListener('click', popVSTiModal);			
 
@@ -181,6 +183,7 @@ $( document ).ready(function() {
 		}
 	}
 	killMsg();
+
 
 	function popVSTiModal() {
 		console.log('    Entering popVSTiModal() = User has clicked Add from the default msg row.');				
@@ -292,36 +295,6 @@ $( document ).ready(function() {
 			console.log('the HTML survey says : ' + pluginHTML);
 		}	
 		buildTheRow();
-
-		function editThisVsti() {
-			alert(	'The btn ID ' + editBtn + ' was clicked.' 	);				
-			console.log('    Now entering editThisVsti(): ' + dynamicVSTiObject.name);		
-			/* FOR EDIT BUTTON USE: Provide common names for use in form field value manipulation */
-							
-			var vstiName = document.getElementById('vstiName').value;
-			var vstiVersion = document.getElementById('vstiVersion').value;
-			var vstiDescription = document.getElementById('vstiDescription').value;
-			var vstiFormat = document.getElementById('vstiFormat').value;
-			var vstiRating = document.getElementById('vstiRating').value;
-			var vstiReview	= document.getElementById('vstiReview').value;
-			
-			vstiName = dynamicVSTiObject.name;
-			vstiVersion = dynamicVSTiObject.version;
-			vstiDescription = dynamicVSTiObject.description;
-			vstiFormat = dynamicVSTiObject.format;
-			vstiRating = dynamicVSTiObject.rating;
-			vstiReview	= dynamicVSTiObject.review;
-
-			/*			
-			vstiName = dynamicVSTiObject.name;
-			vstiVersion = dynamicVSTiObject.version;
-			vstiDescription = dynamicVSTiObject.description;
-			vstiFormat = dynamicVSTiObject.format;
-			vstiRating = dynamicVSTiObject.rating;
-			vstiReview	= dynamicVSTiObject.review;
-			*/		
-		}
-	
 	}
 
 });// End: 	DocReady
