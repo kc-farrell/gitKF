@@ -166,7 +166,7 @@
 						type="button" data-toggle="modal" data-target="#VSTiInsertModal">add new vsti
 					</button>
 				</div>						
-				<div id="testingDiv" class="col-2">testing div</div>					
+				<div id="testingDiv" class="col-2"></div>					
 				<div class="col-6 text-center">
 					<meter id="reviewQty" value="2" min="0" max="10"></meter>
 					<br />
@@ -181,7 +181,7 @@
 				<form id="vstiEntry" action="">			  	
 				<div class="modal-content">
 				  <div class="modal-header">
-					<h5 class="modal-title" id="VSTiInsertModalLabel">Insert New VSTi Plugin</h5>
+					<h5 class="modal-title" id="VSTiModalLabel">Insert New VSTi Plugin</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					  <span aria-hidden="true">&times;</span>
 					</button>
@@ -198,7 +198,7 @@
 							</div>
 							<div class="fieldData col-2">
 								<label for="vstiFormat">Format</label>
-								<input id="vstiFormat" type="text" class="form-control fileformat" placeholder=".exe, .dll" value="" />
+								<input id="vstiFormat" type="text" class="form-control fileformat" placeholder="EXE DLL" value="" />
 							</div>
 
 							<div class="fieldData ratingStars col-3">
@@ -226,7 +226,7 @@
 				  </div>
 				  <div class="modal-footer">
 					<button id="cancelVstiSubmit" type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
-					<button id="vstiSubmit" type="submit" class="btn btn-primary" data-dismiss="modal">submit</button> ;
+					<button id="vstiSubmit" type="submit" class="btn btn-primary" data-dismiss="modal">submit</button>				
 				  </div>						
 				</form>
 				</div>
