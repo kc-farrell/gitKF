@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 
-
+loadPlugins(); /* Loads the vsti Plugins from localStorage can be removed after testing to demo the workflow */
 	/* Fetch all localStorage VSTi records. */
 	function loadPlugins() {
 		var o = localStorage;
@@ -81,7 +81,7 @@ $( document ).ready(function() {
 
 				function buildDataRows() {
 				  	var sand = '<span>' + JSON.parse(o[key])["name"] + '</span>' + '<br />' + '<span>' + JSON.parse(o[key])["description"] + '</span>' +'<br /><br />';	
-
+				  	/* Demonstrate use of ES6? backticks to allow for huge chunks of HTML w/out need for escaping or working about line breaks */
 				  	let htmlBlob = `
 						<div id="${lsId}" class="dataRow row">
 							<div class="col-1 fieldData text-center">
@@ -132,17 +132,73 @@ $( document ).ready(function() {
 		}	
 	}
 
-	function editThisVsti() { 
-		var o = localStorage;
-		var clickedBtn = event.srcElement.id; // what got clicked w out knowing its ID or how many etc - dynamic
-		var selectedRow = document.getElementById(clickedBtn).parentNode.parentNode.id;
-		var record = localStorage.getItem(selectedRow);	
+	function editThisVsti(err) { 
 
-		var whatever = JSON.stringify(selectedRow);
-		alert('the record contents are: ' +whatever);	
-		/*
-			vstiName.value = lsName;
-		*/
+		/* Change the modal's title and btn submit=update based on plugin name */
+		var modalTitle = document.getElementById('VSTiModalLabel');
+		modalTitle.innerHTML ='Edit Mode for Plugin: ' + editThis_name;
+		var submitBtnTitle = document.getElementById('vstiSubmit');	
+		submitBtnTitle.innerHTML ='update';
+
+		var updateBtn = document.getElementById('vstiSubmit');
+		updateBtn.setAttribute('id', 'vstiUpdate', 'type', 'button');
+		/* Add event listener for Update button in the modal, still has ID of vstiSubmit */
+		document.getElementById('vstiUpdate').addEventListener('click', doUpdate(event));		
+
+
+		var o = localStorage;
+		var clickedBtn = event.srcElement.id; // what got clicked w out knowing its ID or how many etc - dynamic		
+		var selectedRow 			= document.getElementById(clickedBtn).parentNode.parentNode.id; // Get the selected row's ID
+		console.log(selectedRow);
+
+		/* Fetch the Object from localStorage based on the buttons ID */
+		var e = o.getItem(selectedRow);
+		console.log('the object you want from localStorage should be: ' + JSON.parse(e).name); // without first parsing, e will be object object	
+
+		var editThis_btnID = JSON.parse(e).btn;
+		var editThis_name = JSON.parse(e).name;
+		var editThis_version  = JSON.parse(e).version;
+		var editThis_description  = JSON.parse(e).description;
+		var editThis_format  = JSON.parse(e).format;
+		var editThis_rating  = JSON.parse(e).rating;
+		var editThis_review  = JSON.parse(e).review;
+
+		/* Use collected data in a more readable testing format */
+		let fetchedObjString = `
+			${editThis_btnID}
+			${editThis_name}
+			${editThis_version}
+			${editThis_description}
+			${editThis_format}
+			${editThis_rating}
+			${editThis_review}
+		`
+		console.log(fetchedObjString);		
+
+		//console.log('the plugin Name from localStorage object is ' + '');
+/*	
+		var editedName 				= selectedRow.querySelector('.dVSTiName'); // use selectedRow to target classname based on the row's ID.
+		var editedVersion 			= selectedRow.querySelector('.dVSTiVersion'); // use selectedRow to target classname based on the row's ID.
+		var editedDescription		= selectedRow.querySelector('.dVSTiDescription'); // use selectedRow to target classname based on the row's ID.
+		var editedFormat 			= selectedRow.querySelector('.dVSTiFormat'); // use selectedRow to target classname based on the row's ID.
+		var editedRating 			= selectedRow.querySelector('.dVSTiRating'); // use selectedRow to target classname based on the row's ID.
+		var*/ editedReview 			= selectedRow.querySelector('.dVSTiReview'); // use selectedRow to target classname based on the row's ID.
+
+
+
+		function doUpdate(event) {
+
+			alert('its update time');
+
+		}
+/*
+		editedName.innerHTML 		= localStorage.setItem(selectedRow, 'tuna') dynamicVSTiObject.name;
+		editedVersion.innerHTML 	= localStorage.setItem(selectedRow, 'tuna') dynamicVSTiObject.version;
+		editedDescription.innerHTML = localStorage.setItem(selectedRow, 'tuna') dynamicVSTiObject.description;
+		editedFormat.innerHTML 		= localStorage.setItem(selectedRow, 'tuna') dynamicVSTiObject.format;
+		editedRating.innerHTML 		= localStorage.setItem(selectedRow, 'tuna') dynamicVSTiObject.rating;
+		editedReview.innerHTML 		= localStorage.setItem(selectedRow, 'tuna') dynamicVSTiObject.review;
+*/
 	}
 	
 
