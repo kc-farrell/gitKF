@@ -1,0 +1,34 @@
+{
+  "name": "vsti-tool-package",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "server.js"
+  },
+  "description": "First time creating a package.JSON file.",
+  "main": "myfirstnode.js",
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "good-listener": "^1.2.2",
+    "hapi": "^17.8.1",
+    "nodemailer": "^4.7.0",
+    "nvm": "0.0.4",
+    "upper-case": "^1.1.3"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kc-farrell/vstiTool"
+  },
+  "keywords": [
+    "audio",
+    "plugins",
+    "extension",
+    "vst",
+    "vsti",
+    "dll",
+    "exe"
+  ],
+  "author": "KC Farrell",
+  "license": "ISC"
+}
