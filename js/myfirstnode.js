@@ -4,12 +4,12 @@ var grabDate = require('./myfirstmodule'); /* means reference the file where the
 var uc = require('upper-case'); /* Demonstrate using an NPM package (upper-case) */
 
 var nodemailer = require('nodemailer');
-
+/*
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'watersigndesign@gmail.com',
-    pass: 'whatever'
+    pass: 'whatever!'
   }
 });
 
@@ -27,7 +27,7 @@ transporter.sendMail(mailOptions, function(error, info){
     console.log('Email sent: ' + info.response);
   }
 });
-
+*/
 
 var fs = require('fs');
 /* 
@@ -48,15 +48,32 @@ var fs = require('fs');
 	Seymour here---> https://www.tutorialspoint.com/http/http_responses.htm
  */
 http.createServer(function (req, res) {
-	/* Read in my existing VSTi plugin file/app to this request/URL */
-	fs.readFile('../index.html', function(err, data) {
-	    res.writeHead(200, {'Content-Type': 'text/html'});
-	    res.write(uc('The upper-case package is capitalizing this text. Requested url: ') +req.url + '<br />' + 'The QsrSoft Date and Time: ' + grabDate.myDateTime() + '<br />comes from the grabDate function located in myfirstmodule.js');
-	    res.write('<p class="whatever">The createServer Object is inserting this text via res.write into a P tag.</p>');   
-	    res.write('The fetched index.html file via fs package is unformatted and non-functional at this time, because its resources are static and not yet known by Node.');
-	    res.write(data);
-		res.end(); /* END the response */
+	console.log("here");
+	let body = "";
+	let counter = 1;
+	req.on("data", function (datum) {
+		console.log("got some data.... number ", counter);
+		counter++;
+		body += datum;
+	}).on("error", function (err) {
+		console.log(err);
+		res.write(new Error("Something went wrong: ", err));
+		res.end();
+	}).on("end", function () {
+		console.log("end called");
+		fs.readFile('../index.html', function(err, data) {
+		    res.writeHead(200, {'Content-Type': 'text/html'});
+		    res.write(uc('The upper-case package is capitalizing this text. Requested url: ') +req.url + '<br />' + 'The QsrSoft Date and Time: ' + grabDate.myDateTime() + '<br />comes from the grabDate function located in myfirstmodule.js');
+		    res.write('<p class="whatever">The createServer Object is inserting this text via res.write into a P tag.</p>');   
+		    res.write('The fetched index.html file via fs package is unformatted and non-functional at this time, because its resources are static and not yet known by Node.');
+			console.log('Using Nodes built-in events package to display this. Now this is progress!');
+		    res.write(data);
+		    res.write(body);
+			res.end(); /* END the response */
+		});
 	});
+	/* Read in my existing VSTi plugin file/app to this request/URL */
+		
 
 	/*listen('.whatever', 'click', function(e) {
 		console.log(e);
