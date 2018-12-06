@@ -2,7 +2,7 @@
 
 $( document ).ready(function() {
 
-loadPlugins(); /* Loads the vsti Plugins from localStorage can be removed after testing to demo the workflow */
+/*loadPlugins();  Loads the vsti Plugins from localStorage can be removed after testing to demo the workflow */
 	/* Fetch all localStorage VSTi records. */
 	function loadPlugins() {
 		var o = localStorage;
