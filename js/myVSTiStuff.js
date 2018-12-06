@@ -1,3 +1,5 @@
+
+
 $( document ).ready(function() {
 
 loadPlugins(); /* Loads the vsti Plugins from localStorage can be removed after testing to demo the workflow */
@@ -182,8 +184,8 @@ loadPlugins(); /* Loads the vsti Plugins from localStorage can be removed after 
 		var editedDescription		= selectedRow.querySelector('.dVSTiDescription'); // use selectedRow to target classname based on the row's ID.
 		var editedFormat 			= selectedRow.querySelector('.dVSTiFormat'); // use selectedRow to target classname based on the row's ID.
 		var editedRating 			= selectedRow.querySelector('.dVSTiRating'); // use selectedRow to target classname based on the row's ID.
-		var*/ editedReview 			= selectedRow.querySelector('.dVSTiReview'); // use selectedRow to target classname based on the row's ID.
-
+		var editedReview 			= selectedRow.querySelector('.dVSTiReview'); // use selectedRow to target classname based on the row's ID.
+*/
 
 
 		function doUpdate(event) {
